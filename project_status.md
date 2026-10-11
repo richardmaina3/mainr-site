@@ -143,7 +143,8 @@ CLAUDE.md carries the short live snapshot. This file holds the fuller history an
 ## Next up
 - Nothing left on the copy except small tweaks Richard makes himself in the JSON files. (The contact email is done: `richardmaina3@gmail.com`, so both Contact buttons open a real `mailto:`.)
 - ~~Rebuild the local history before the first push~~ **done 2026-10-11 (Richard's go-ahead):** orphan branch from the current tree, one commit, `main` replaced. The tree is identical to the old tip (`74fcf50`); `planning/reference/` is in no commit. The old commits remain only in the local reflog (a push never includes it; recover with `git branch recover 74fcf50`). Richard keeps `planning/reference/` backed up in his OneDrive folder. Decision: the album covers stay as they are.
-- Phase 7: Netlify site from GitHub, set the `SITE_URL` environment variable (canonical and og: URLs currently say localhost), deploy preview, check the preview, custom domain later.
+- **Pushed to GitHub, 2026-10-11 (Richard's "go"):** `origin` is `https://github.com/richardmaina3/mainr-site.git` (HTTPS, because SSH keys are not set up; `gh` supplies the credentials per push). `main` is one commit (`9416d3c`, 74 files). Verified on GitHub: public, default branch `main`, no `planning/reference/`, `.env`, `media-originals/` or local settings; only `.claude/commands/update-docs.md` from `.claude/`.
+- Phase 7 (steps 3 to 11 remain; step 1 and 2, the push and the repo check, are done): Netlify site from GitHub, set the `SITE_URL` environment variable (canonical and og: URLs currently say localhost), deploy preview, check the preview, custom domain later.
 - For any larger piece of work, follow the full feature-dev workflow (Richard's request, saved to memory).
 
 ## Deferred

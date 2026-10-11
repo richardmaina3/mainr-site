@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- First push: `main` (one commit, `9416d3c`, 74 files) is on https://github.com/richardmaina3/mainr-site. Checked on GitHub: no `planning/reference/`, `.env`, originals or local settings. The remote uses HTTPS because SSH keys are not set up here
 - Local git history rebuilt as one clean commit (no `planning/reference/` in any commit; the album covers stay, by Richard's decision). Nothing pushed
 - Culture intro written (replaces the template line)
 - Dish notes rewritten around the circumstances behind each dish, not a description of it
