@@ -1,0 +1,44 @@
+---
+import Tape from './Tape.astro';
+
+interface Props {
+  title: string;
+  /** Frame width: a number is px, a string is any CSS width (e.g. "100%"). */
+  width?: number | string;
+  rotate?: number;
+  tape?: { left: number; rotate: number };
+}
+
+const { title, width = 190, rotate = 0, tape } = Astro.props;
+const cssWidth = typeof width === 'number' ? `${width}px` : width;
+---
+
+<div class="note" style={`width:${cssWidth};transform:rotate(${rotate}deg)`}>
+  {tape && <Tape variant="light" left={tape.left} rotate={tape.rotate} width={70} />}
+  <div class="title">{title}</div>
+  <div class="body"><slot /></div>
+</div>
+
+<style>
+  .note {
+    position: relative;
+    box-sizing: border-box;
+    padding: 18px 16px 20px;
+    background-color: var(--sticky);
+    border: var(--border-thin);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .body {
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    line-height: 1.45;
+  }
+</style>

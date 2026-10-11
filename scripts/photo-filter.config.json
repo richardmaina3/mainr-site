@@ -1,0 +1,16 @@
+{
+  "maxEdge": 1600,
+  "quality": 90,
+  "contrast": 1.06,
+  "saturation": 1.08,
+  "warmth": { "color": "#C98F4A", "opacity": 0.13 },
+  "grain": { "strength": 0.1, "size": 2.5 },
+  "adjustments": {
+    "sports-okc-phx": { "rotate": 270 },
+    "portrait-2": {
+      "crop": { "left": 140, "top": 40, "width": 760, "height": 838 },
+      "whiteBalance": { "red": 1.1, "blue": 0.85 },
+      "tameBlues": 0.8
+    }
+  }
+}

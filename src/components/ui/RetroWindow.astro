@@ -1,0 +1,71 @@
+---
+interface Props {
+  /** Decorative fake filename in the title bar (e.g. "skills.exe"). */
+  title: string;
+  /** Accessible name for the window's content. */
+  label: string;
+  /** Minimum body height in px. */
+  minBody?: number;
+}
+
+const { title, label, minBody } = Astro.props;
+---
+
+<section class="window" aria-label={label}>
+  <!-- The title bar is decoration only, so it is hidden from assistive tech. -->
+  <div class="bar" aria-hidden="true">
+    <span class="title">{title}</span>
+    <span class="buttons"><span></span><span></span><span></span></span>
+  </div>
+  <div class="body" style={minBody ? `min-height:${minBody - 34}px` : undefined}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .window {
+    min-width: 0;
+    background-color: var(--print);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-window);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 34px;
+    box-sizing: border-box;
+    padding: 0 10px 0 14px;
+    background-color: var(--accent);
+    border-bottom: var(--border-thick);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+  }
+
+  .buttons {
+    display: flex;
+    gap: 6px;
+  }
+
+  .buttons span {
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    background-color: var(--print);
+    border: var(--border-thin);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 28px;
+  }
+
+  @media (max-width: 699px) {
+    .body {
+      padding: var(--space-5) var(--space-4);
+    }
+  }
+</style>

@@ -1,0 +1,13 @@
+{
+  "portrait": {
+    "image": "../assets/photos/portrait-2.jpg",
+    "alt": "Richard Maina smiling broadly, in a burgundy blazer over a dark roll-neck, photographed from the chest up",
+    "caption": "Richard Maina",
+    "year": "2026"
+  },
+  "aboutNote": {
+    "title": "About me",
+    "text": "Embedded engineer, Swiss Army knife edition."
+  },
+  "stickers": ["chip", "food", "note"]
+}

@@ -1,0 +1,130 @@
+---
+import { getEntry } from 'astro:content';
+import SectionLabel from '../ui/SectionLabel.astro';
+import DishCell from './DishCell.astro';
+
+const { intro, dishes } = (await getEntry('cooking', 'cooking'))!.data;
+
+// If the cell count does not fill the last row, pad it with plain cells so no gap shows
+// the dark rule colour. 3 columns on desktop, 2 on tablet, 1 on phones.
+const cells = dishes.length + 1;
+const fillers3 = (3 - (cells % 3)) % 3;
+const fillers2 = (2 - (cells % 2)) % 2;
+const fillers = Array.from({ length: Math.max(fillers3, fillers2) }, (_, i) => ({
+  desktop: i < fillers3,
+  tablet: i < fillers2,
+}));
+---
+
+<section id="cooking" class="cooking">
+  <SectionLabel id="cooking" />
+
+  <div class="grid">
+    <div class="cell intro">
+      <h2>{intro.title}</h2>
+      <p>{intro.text}</p>
+    </div>
+
+    {
+      dishes.map((dish, i) => (
+        <DishCell
+          index={i}
+          image={dish.image}
+          alt={dish.alt}
+          name={dish.name}
+          note={dish.note}
+          date={dish.date}
+          rotate={dish.rotate}
+          side={dish.side}
+          focus={dish.focus}
+        />
+      ))
+    }
+
+    {
+      fillers.map((filler) => (
+        <div
+          class="cell filler"
+          aria-hidden="true"
+          data-desktop={filler.desktop ? '' : undefined}
+          data-tablet={filler.tablet ? '' : undefined}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .cooking {
+    margin-top: var(--section-gap);
+  }
+
+  /* Ruled cell grid: the 2px gaps and the border are the ink rules. */
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    margin-top: 20px;
+    background-color: var(--ink);
+    border: var(--border-thick);
+    border-radius: var(--radius-grid);
+    overflow: hidden;
+  }
+
+  .cell {
+    background-color: var(--cell);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-sizing: border-box;
+    padding: var(--space-6);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-section);
+    line-height: 1;
+  }
+
+  .intro p {
+    max-width: 310px;
+    line-height: var(--leading-body);
+  }
+
+  .filler {
+    display: none;
+  }
+
+  @media (min-width: 700px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .intro {
+      height: 340px;
+    }
+
+    .filler[data-tablet] {
+      display: block;
+      height: 340px;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .filler[data-tablet] {
+      display: none;
+    }
+
+    .filler[data-desktop] {
+      display: block;
+    }
+  }
+</style>

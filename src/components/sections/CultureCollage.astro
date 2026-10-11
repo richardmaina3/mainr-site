@@ -1,0 +1,205 @@
+---
+import { getEntry } from 'astro:content';
+import AlbumCover from '../ui/AlbumCover.astro';
+import MuseumPrint from '../ui/MuseumPrint.astro';
+import SportsPrint from '../ui/SportsPrint.astro';
+import StickyNote from '../ui/StickyNote.astro';
+
+const { intro, albums, museum, sports, rightNow } = (await getEntry('culture', 'culture'))!.data;
+
+// Item widths on the 1200px desktop canvas. Positions and rotations come from culture.json `pos`.
+const WIDTH = { intro: 330, album: 150, museum: 210, sports: 320, note: 210 };
+// The "Right now" note is not in the JSON, so its canvas spot is fixed here.
+const NOTE = { x: 990, y: 330, rotate: 3 };
+
+// Tape placement varies per print so the collage does not look stamped. Cycled by index.
+const albumTapes = [
+  { left: 40, rotate: 3 },
+  { left: 50, rotate: -3 },
+  { left: 30, rotate: 4 },
+  { left: 56, rotate: -3 },
+];
+const museumTapes = [
+  { left: 70, rotate: -4 },
+  { left: 70, rotate: 3 },
+];
+const sportsTapes = [
+  { left: 120, rotate: -3 },
+  { left: 60, rotate: 4 },
+];
+const pick = <T,>(list: T[], i: number) => list[i % list.length];
+
+const rightNowRows = [
+  { label: 'Listening', value: rightNow.listening },
+  { label: 'Watching', value: rightNow.watching },
+  { label: 'Visiting', value: rightNow.visiting },
+];
+---
+
+<!--
+  Desktop (1100px and up): a 1200px design canvas. Every item is placed from its --x, --y, --w
+  (canvas units) and tilted by --r. The canvas is a size container, so --u (one canvas unit)
+  scales the layout when the page column is narrower than 1200px. Text keeps its real size.
+  Below 1100px the items flow in a centred, wrapped stack instead.
+-->
+<div class="canvas">
+  <div class="stage">
+    <div class="item intro" style={`--x:0;--y:0;--w:${WIDTH.intro};--r:0deg`}>
+      <h2>{intro.title}</h2>
+      <p>{intro.text}</p>
+    </div>
+
+    {
+      museum.map((print, i) => (
+        <div class="item" style={`--x:${print.pos.x};--y:${print.pos.y};--w:${WIDTH.museum};--r:${print.pos.rotate}deg`}>
+          <MuseumPrint
+            image={print.image}
+            alt={print.alt}
+            artist={print.artist}
+            title={print.title}
+            year={print.year}
+            tape={pick(museumTapes, i)}
+          />
+        </div>
+      ))
+    }
+
+    {
+      albums.map((album, i) => (
+        <div class="item" style={`--x:${album.pos.x};--y:${album.pos.y};--w:${WIDTH.album};--r:${album.pos.rotate}deg`}>
+          <AlbumCover
+            image={album.image}
+            alt={album.alt}
+            artist={album.artist}
+            album={album.album}
+            tape={pick(albumTapes, i)}
+          />
+        </div>
+      ))
+    }
+
+    {
+      sports.map((print, i) => (
+        <div class="item" style={`--x:${print.pos.x};--y:${print.pos.y};--w:${WIDTH.sports};--r:${print.pos.rotate}deg`}>
+          <SportsPrint
+            image={print.image}
+            alt={print.alt}
+            event={print.event}
+            date={print.date}
+            section={print.section}
+            row={print.row}
+            tape={pick(sportsTapes, i)}
+          />
+        </div>
+      ))
+    }
+
+    <div class="item" style={`--x:${NOTE.x};--y:${NOTE.y};--w:${WIDTH.note};--r:${NOTE.rotate}deg`}>
+      <StickyNote title={rightNow.title} width="100%" tape={{ left: 70, rotate: -3 }}>
+        <dl class="rows">
+          {
+            rightNowRows.map((row) => (
+              <div class="row">
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </StickyNote>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Stacked layout (below 1100px): a centred, wrapped flow that keeps each print's tilt. */
+  .stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 44px 32px;
+    padding-top: var(--space-4);
+  }
+
+  .item {
+    position: relative;
+    box-sizing: border-box;
+    width: calc(var(--w) * 1px);
+    max-width: 100%;
+    transform: rotate(var(--r));
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    transform: none;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-section);
+    line-height: 1;
+  }
+
+  .intro p {
+    max-width: 34rem;
+    line-height: var(--leading-body);
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: var(--space-1) 0 0;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .row dt {
+    flex: none;
+    width: 76px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .row dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 1100px) {
+    .canvas {
+      --u: calc(100cqw / 1200);
+      container-type: inline-size;
+    }
+
+    .stage {
+      display: block;
+      position: relative;
+      height: calc(680 * var(--u));
+      padding-top: 0;
+    }
+
+    .item {
+      position: absolute;
+      left: calc(var(--x) * var(--u));
+      top: calc(var(--y) * var(--u));
+      width: calc(var(--w) * var(--u));
+      max-width: none;
+    }
+
+    .intro {
+      display: flex;
+      width: calc(var(--w) * var(--u));
+    }
+  }
+</style>

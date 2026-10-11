@@ -1,0 +1,38 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/sections/Header.astro';
+import Hero from '../components/sections/Hero.astro';
+import Work from '../components/sections/Work.astro';
+import Cooking from '../components/sections/Cooking.astro';
+import Culture from '../components/sections/Culture.astro';
+import Footer from '../components/sections/Footer.astro';
+import { warnOnContent } from '../lib/contentWarnings';
+
+// Loading every collection here makes a bad JSON entry fail the build, even for
+// sections that are not built yet.
+const site = (await getEntry('site', 'site'))!.data;
+await Promise.all([
+  getEntry('work', 'work'),
+  getEntry('skills', 'skills'),
+  getEntry('cooking', 'cooking'),
+  getEntry('culture', 'culture'),
+]);
+await warnOnContent();
+---
+
+<BaseLayout
+  title={site.meta.title}
+  description={site.meta.description}
+  ogImage={site.meta.ogImage}
+  ogImageAlt={site.meta.ogImageAlt}
+>
+  <Header />
+  <main id="main" class="page">
+    <Hero />
+    <Work />
+    <Cooking />
+    <Culture />
+  </main>
+  <Footer />
+</BaseLayout>

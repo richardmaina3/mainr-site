@@ -1,0 +1,76 @@
+---
+import { getEntry } from 'astro:content';
+
+const { words } = (await getEntry('skills', 'skills'))!.data;
+---
+
+<!-- Real text, sized by tier. Authors set tier 1 to 6 in skills.json, never pixel sizes. -->
+<ul class="cloud" role="list">
+  {
+    words.map((word) => (
+      <li class="word" data-tier={word.tier} data-font={word.font} data-accent={word.accent ? '' : undefined}>
+        {word.label}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .cloud {
+    --scale: 1;
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: 8px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .word {
+    font-size: calc(var(--px) * 1px * var(--scale));
+    line-height: 1.1;
+  }
+
+  .word[data-tier='1'] { --px: 18; }
+  .word[data-tier='2'] { --px: 22; }
+  .word[data-tier='3'] { --px: 26; }
+  .word[data-tier='4'] { --px: 32; }
+  .word[data-tier='5'] { --px: 40; }
+  .word[data-tier='6'] { --px: 48; }
+
+  /* Weight follows the tier: the biggest words are the heaviest. */
+  .word[data-font='sans'] {
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .word[data-font='sans']:is([data-tier='4'], [data-tier='5'], [data-tier='6']) {
+    font-weight: 500;
+  }
+
+  .word[data-font='pixel'] {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .word[data-font='pixel']:is([data-tier='5'], [data-tier='6']) {
+    font-weight: 700;
+  }
+
+  /* Accent-deep is the text-safe blue (about 4.7:1 on the window body). */
+  .word[data-accent] {
+    color: var(--accent-deep);
+  }
+
+  @media (max-width: 699px) {
+    .cloud {
+      --scale: 0.8;
+      gap: 6px 14px;
+    }
+  }
+</style>

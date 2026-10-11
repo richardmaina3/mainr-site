@@ -1,0 +1,18 @@
+[
+  { "label": "Embedded", "tier": 6, "font": "pixel", "accent": false },
+  { "label": "Firmware", "tier": 4, "font": "sans", "accent": true },
+  { "label": "RTOS", "tier": 2, "font": "sans", "accent": false },
+  { "label": "Delivery", "tier": 5, "font": "pixel", "accent": true },
+  { "label": "C / C++", "tier": 3, "font": "sans", "accent": false },
+  { "label": "Documentation", "tier": 1, "font": "sans", "accent": false },
+  { "label": "Linux kernel", "tier": 4, "font": "sans", "accent": false },
+  { "label": "Debugging", "tier": 3, "font": "pixel", "accent": true },
+  { "label": "Python", "tier": 2, "font": "sans", "accent": false },
+  { "label": "Zephyr", "tier": 3, "font": "sans", "accent": false },
+  { "label": "Systems thinking", "tier": 4, "font": "sans", "accent": true },
+  { "label": "Testing", "tier": 1, "font": "sans", "accent": false },
+  { "label": "Prototyping", "tier": 4, "font": "pixel", "accent": false },
+  { "label": "Cooking", "tier": 2, "font": "sans", "accent": true },
+  { "label": "ESP32", "tier": 2, "font": "sans", "accent": false },
+  { "label": "Collaboration", "tier": 3, "font": "sans", "accent": false }
+]

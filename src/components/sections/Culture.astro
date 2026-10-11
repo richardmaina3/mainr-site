@@ -1,0 +1,21 @@
+---
+import SectionLabel from '../ui/SectionLabel.astro';
+import CultureCollage from './CultureCollage.astro';
+---
+
+<section id="culture" class="culture">
+  <SectionLabel id="culture" />
+  <div class="collage">
+    <CultureCollage />
+  </div>
+</section>
+
+<style>
+  .culture {
+    margin-top: var(--section-gap);
+  }
+
+  .collage {
+    margin-top: 20px;
+  }
+</style>

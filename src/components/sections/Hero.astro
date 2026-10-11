@@ -1,0 +1,163 @@
+---
+import { getEntry } from 'astro:content';
+import PillButton from '../ui/PillButton.astro';
+import Polaroid from '../ui/Polaroid.astro';
+import StickyNote from '../ui/StickyNote.astro';
+import Sticker from '../ui/Sticker.astro';
+
+const site = (await getEntry('site', 'site'))!.data;
+const hero = (await getEntry('hero', 'hero'))!.data;
+const { portrait, aboutNote, stickers } = hero;
+
+// Scrapbook corner layout on the desktop canvas (500 x 500, anchored to the right edge).
+// Below 1100px these slots flow in a wrapped row instead.
+const stickerSlots = [
+  { left: 0, top: 300, rotate: -8 },
+  { left: 360, top: 60, rotate: 8 },
+  { left: 90, top: 400, rotate: -4 },
+];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="text">
+    <p class="eyebrow">{site.eyebrow}</p>
+    <h1 id="hero-title">{site.headline}</h1>
+    <p class="subline">{site.subline}</p>
+    <div class="ctas">
+      <PillButton href={`mailto:${site.email}`}>{site.ctaPrimary}</PillButton>
+      <PillButton href="#work" variant="secondary">{site.ctaSecondary}</PillButton>
+    </div>
+  </div>
+
+  <div class="corner">
+    <div class="slot" style="--l:80px;--t:20px">
+      <Polaroid
+        image={portrait.image}
+        alt={portrait.alt}
+        captionLeft={portrait.caption}
+        captionRight={portrait.year}
+        size="lg"
+        aspect={196 / 216}
+        rotate={3}
+        focus={portrait.focus}
+        tape={{ left: 70, rotate: -4 }}
+        eager
+      />
+    </div>
+    <div class="slot" style="--l:290px;--t:250px">
+      <StickyNote title={aboutNote.title} width={190} rotate={-4} tape={{ left: 60, rotate: 3 }}>
+        {aboutNote.text}
+      </StickyNote>
+    </div>
+    <!-- Stacked: the stickers stay together as one row. Desktop: `display: contents` lets each one be placed on the canvas. -->
+    <div class="stickers">
+      {
+        stickers.map((icon, i) => {
+          const slot = stickerSlots[i];
+          return (
+            <div class="slot" style={`--l:${slot.left}px;--t:${slot.top}px`}>
+              <Sticker icon={icon} rotate={slot.rotate} />
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    margin-top: 1.25rem;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-top: var(--space-6);
+    max-width: 640px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-hero);
+    line-height: 0.98;
+    white-space: pre-line;
+    /* Safety net: a long word must never cause horizontal scroll. */
+    overflow-wrap: break-word;
+  }
+
+  .subline {
+    max-width: 520px;
+    font-size: var(--text-subline);
+    line-height: var(--leading-body);
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  /* Stacked layout (below 1100px): text first, then the corner as a wrapped row. */
+  .corner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 28px var(--space-5);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+  }
+
+  .slot {
+    position: relative;
+  }
+
+  .stickers {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+    padding-top: var(--space-4);
+  }
+
+  @media (min-width: 1100px) {
+    .hero {
+      position: relative;
+      min-height: 500px;
+    }
+
+    .text {
+      padding-top: 56px;
+    }
+
+    .corner {
+      position: absolute;
+      /* 16px below the mockup's position so the taped portrait is not crowded by the nav box. */
+      top: 16px;
+      right: 0;
+      width: 500px;
+      height: 500px;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .stickers {
+      display: contents;
+    }
+
+    .slot {
+      position: absolute;
+      left: var(--l);
+      top: var(--t);
+    }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import PixelIcon from './PixelIcon.astro';
+import type { IconName } from '../../lib/pixelIcons';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'sm';
+  icon?: IconName;
+}
+
+const { href, variant = 'primary', size = 'md', icon } = Astro.props;
+---
+
+<a class:list={['pill', variant, size]} href={href}>
+  {
+    icon && (
+      <span class="icon">
+        <PixelIcon name={icon} size={20} />
+      </span>
+    )
+  }
+  <slot />
+</a>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: var(--border-thick);
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: var(--shadow-btn);
+    transition:
+      transform var(--transition-hover),
+      box-shadow var(--transition-hover),
+      background-color var(--transition-hover),
+      color var(--transition-hover);
+  }
+
+  /* The 20px icon is taller than the text line; a negative margin keeps the pill's height unchanged. */
+  .icon {
+    display: flex;
+    margin-block: -2px;
+  }
+
+  .md {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-body);
+  }
+
+  .sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-small);
+  }
+
+  /* Touch layouts: small pills still get a 44px tap target. */
+  @media (max-width: 699px) {
+    .sm {
+      min-height: 44px;
+    }
+  }
+
+  .primary {
+    background-color: var(--accent);
+  }
+
+  .secondary {
+    background-color: var(--print);
+  }
+
+  /* Hover and keyboard focus share one treatment (brief §6, §8). */
+  .pill:hover,
+  .pill:focus-visible {
+    transform: translate(-1px, -1px);
+    box-shadow: var(--shadow-btn-hover);
+    background-color: var(--accent-deep);
+    color: var(--print);
+  }
+</style>

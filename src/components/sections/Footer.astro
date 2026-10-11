@@ -1,0 +1,79 @@
+---
+import { getEntry } from 'astro:content';
+
+const site = (await getEntry('site', 'site'))!.data;
+
+// Computed at build time, so the year is right whenever the site is rebuilt.
+const year = new Date().getFullYear();
+---
+
+<footer class="page footer">
+  <div class="bar">
+    <p>&copy; {year} {site.name}</p>
+    <p class="links">
+      {
+        site.linkedin && (
+          <a href={site.linkedin} rel="noopener">
+            LinkedIn
+          </a>
+        )
+      }
+      {
+        site.attribution.url ? (
+          <a href={site.attribution.url} rel="noopener">
+            {site.attribution.text}
+          </a>
+        ) : (
+          <span>{site.attribution.text}</span>
+        )
+      }
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 40px;
+    padding-bottom: var(--page-pad);
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-5);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+  }
+
+  /* 30px tall hit area (6px padding, offset by negative margins) with no visual change. */
+  a {
+    padding-block: 6px;
+    margin-block: -6px;
+    text-underline-offset: 3px;
+  }
+
+  /* Phones: a full 44px tap target, with enough row gap that stacked hit areas never overlap. */
+  @media (max-width: 699px) {
+    .links {
+      row-gap: 26px;
+    }
+
+    a {
+      padding-block: 13px;
+      margin-block: -13px;
+    }
+  }
+</style>

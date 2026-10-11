@@ -1,0 +1,53 @@
+{
+  "intro": {
+    "title": "Cooking",
+    "text": "Limited ingredients, limited time and a meal that still has to hit its macros. The constraints don't block the design, they define it."
+  },
+  "dishes": [
+    {
+      "id": "breakfast-biscuit",
+      "image": "../assets/photos/dish-breakfast-biscuit.jpg",
+      "alt": "Avocado, egg and tomato on a biscuit, plated on a white plate",
+      "name": "Breakfast biscuit",
+      "note": "Quick breakfast, plated with care. It lasts about two minutes before I scarf it down.",
+      "date": "Apr 2026",
+      "rotate": -3
+    },
+    {
+      "id": "chinese-ny-rib",
+      "image": "../assets/photos/dish-chinese-ny-rib.jpg",
+      "alt": "Glazed ribs topped with sesame seeds and sliced scallions in a glass baking dish.",
+      "name": "Chinese NY rib",
+      "note": "Invited to a Chinese New Year party. I know the flavors but not the cooking, so I twisted a dish I know well.",
+      "date": "Feb 2024",
+      "rotate": 2.5
+    },
+    {
+      "id": "glazed-thigh",
+      "image": "../assets/photos/dish-glazed-thigh.jpg",
+      "alt": "Glazed chicken thigh with rice and green beans on a white plate",
+      "name": "Glazed thigh",
+      "note": "Meal prep gets boring. A glaze is all it takes to dress up classic chicken and rice.",
+      "date": "Jan 2025",
+      "rotate": 2
+    },
+    {
+      "id": "italian-bok-choy",
+      "image": "../assets/photos/dish-italian-bok-choy.jpg",
+      "alt": "Braised baby bok choy in a white bowl",
+      "name": "Italian bok choy",
+      "note": "All that was left was Italian sausage and bok choy, fusion was the only option.",
+      "date": "May 2026",
+      "rotate": -2.5
+    },
+    {
+      "id": "katsu-pesto",
+      "image": "../assets/photos/dish-katsu-pesto.jpg",
+      "alt": "Breaded katsu cutlet on pesto pasta on a white plate",
+      "name": "Katsu pesto",
+      "note": "Katsu usually gets curry. I say a fresh, creamy pesto suits that crispy cutlet better.",
+      "date": "Jul 2025",
+      "rotate": -2
+    }
+  ]
+}

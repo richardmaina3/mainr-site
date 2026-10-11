@@ -1,0 +1,158 @@
+---
+import type { ImageMetadata } from 'astro';
+import Polaroid from '../ui/Polaroid.astro';
+
+interface Props {
+  /** Zero-based position among the dishes. Sets the "No. 0N" caption and the default side. */
+  index: number;
+  image: ImageMetadata;
+  alt: string;
+  name: string;
+  note: string;
+  date: string;
+  rotate?: number;
+  /** Which lower corner the polaroid sits in. Alternates by index when omitted. */
+  side?: 'left' | 'right';
+  focus?: string;
+}
+
+const { index, image, alt, name, note, date, rotate, side, focus } = Astro.props;
+
+const polaroidSide = side ?? (index % 2 === 0 ? 'left' : 'right');
+const tilt = rotate ?? (polaroidSide === 'left' ? -2.5 : 2.5);
+const number = `No. ${String(index + 1).padStart(2, '0')}`;
+---
+
+<div class="cell" data-side={polaroidSide}>
+  <div class="stage">
+    <div class="print">
+      <Polaroid image={image} alt={alt} captionLeft={number} captionRight={date} rotate={tilt} focus={focus} />
+      <!-- Hand-drawn arrow from the polaroid up to the note. Decorative, and dropped on phones. -->
+      <svg
+        class="arrow"
+        width="58"
+        height="70"
+        viewBox="0 0 58 70"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M6 50 C 40 64, 52 36, 38 4"></path>
+        <path d="M31 14 L38 3 L46 12"></path>
+      </svg>
+    </div>
+    <p class="note"><span class="name">{name}</span><br />{note}</p>
+  </div>
+</div>
+
+<style>
+  .cell {
+    background-color: var(--cell);
+    overflow: hidden;
+  }
+
+  /* Phones: polaroid first, annotation as a caption beneath it, no arrow. */
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 22px 26px;
+  }
+
+  .note {
+    max-width: 280px;
+    margin: 0;
+    text-align: center;
+    /* The handwriting font is used here and nowhere else on the site. */
+    font-family: var(--font-hand);
+    font-size: 15px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .name {
+    padding: 0 4px;
+    background-color: var(--marker);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .print {
+    position: relative;
+    width: 172px;
+  }
+
+  .arrow {
+    display: none;
+    position: absolute;
+    color: var(--ink);
+  }
+
+  /* Tablet and desktop: a 340px cell with the polaroid in a lower corner and the note opposite. */
+  @media (min-width: 700px) {
+    .cell {
+      height: 340px;
+    }
+
+    .stage {
+      display: block;
+      position: relative;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 400px;
+      height: 340px;
+      margin-inline: auto;
+      padding: 0;
+    }
+
+    .print {
+      position: absolute;
+      bottom: 22px;
+    }
+
+    .note {
+      position: absolute;
+      top: 26px;
+      width: min(320px, calc(100% - 22px));
+      max-width: none;
+      text-align: left;
+    }
+
+    .arrow {
+      display: block;
+      top: -4px;
+    }
+
+    [data-side='left'] .print {
+      left: 22px;
+    }
+
+    [data-side='left'] .note {
+      right: 8px;
+    }
+
+    [data-side='left'] .arrow {
+      left: 150px;
+    }
+
+    [data-side='right'] .print {
+      right: 22px;
+    }
+
+    [data-side='right'] .note {
+      left: 22px;
+    }
+
+    /* The right-hand arrow is the left-hand one mirrored. */
+    [data-side='right'] .arrow {
+      left: -36px;
+      transform: scaleX(-1);
+    }
+  }
+</style>

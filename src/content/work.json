@@ -1,0 +1,27 @@
+{
+  "lead": "Every problem has a scarce resource: time, compute, ingredients, a team's attention. I name it first, then design around it. My core is embedded and kernel work, but I've worked across enough other fields to see solutions that people inside a single field tend to miss.",
+  "skillsWindowTitle": "skills.exe",
+  "blocks": [
+    {
+      "id": "embedded",
+      "icon": "chip",
+      "title": "Embedded",
+      "anchor": "Close to the hardware, where I started and where I'm most at home.",
+      "body": "I began my career in embedded development, thrilled by how much visibility and control you have over your programs. Since then, I've built my skills in inter-process communication and device drivers, and contributed to both Zephyr and the Linux kernel."
+    },
+    {
+      "id": "delivery",
+      "icon": "box",
+      "title": "Delivery",
+      "anchor": "Taking products from idea to release.",
+      "body": "I've guided projects the whole way through, with a hand in everything from specs and UI/UX to planning and keeping people coordinated. Building at startup pace gave me speed, grit and adaptability."
+    },
+    {
+      "id": "learning",
+      "icon": "bulb",
+      "title": "Learning",
+      "anchor": "Always picking up something new, usually by building it.",
+      "body": "Lately that's ESP32 projects, further contributions to Zephyr and a curiosity about the world of edge AI."
+    }
+  ]
+}

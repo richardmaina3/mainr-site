@@ -1,0 +1,39 @@
+---
+import { pixelIcons, type IconName } from '../../lib/pixelIcons';
+
+interface Props {
+  name: IconName;
+  /** Rendered width in px. Height follows the icon's aspect ratio. */
+  size?: number;
+  class?: string;
+  /** Accessible name. Omit for decorative icons (the default). */
+  label?: string;
+}
+
+const { name, size = 24, class: className, label } = Astro.props;
+const { w, h, d } = pixelIcons[name];
+const height = Math.round(((size * h) / w) * 100) / 100;
+
+// The Streamline Pixel set is fine line art on a 32-unit grid. A thin outline of the same colour
+// makes the strokes slightly bolder so they stay legible at 20 to 36px (sizes of 32px are
+// pixel-exact: one grid unit is one screen pixel).
+const BOLDER = 0.9;
+---
+
+<svg
+  width={size}
+  height={height}
+  viewBox={`0 0 ${w} ${h}`}
+  fill="currentColor"
+  stroke="currentColor"
+  stroke-width={BOLDER}
+  stroke-linejoin="miter"
+  shape-rendering="crispEdges"
+  class={className}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  <path d={d}></path>
+</svg>

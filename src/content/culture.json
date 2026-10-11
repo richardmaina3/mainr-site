@@ -1,0 +1,76 @@
+{
+  "intro": {
+    "title": "Culture",
+    "text": "Culture is the lens we all share and each perceive differently. Art gives me inspiration. Basketball shows me split-second decisions with teams moving in concert. Music takes me places I've never been and says what words can't."
+  },
+  "albums": [
+    {
+      "image": "../assets/photos/album-born-sinner.jpg",
+      "alt": "Album cover of Born Sinner: a gold crown above a horned figure on a cream background",
+      "artist": "J. Cole",
+      "album": "Born Sinner",
+      "pos": { "x": 620, "y": 30, "rotate": -3 }
+    },
+    {
+      "image": "../assets/photos/album-jeunebeurdelafontainevol2.jpg",
+      "alt": "Album cover: a blue ink drawing of a face and a hand",
+      "artist": "GAL",
+      "album": "Jeunebeurdelafontaine Vol 2",
+      "pos": { "x": 770, "y": 70, "rotate": 2 }
+    },
+    {
+      "image": "../assets/photos/album-kokoroko.jpg",
+      "alt": "Album cover of Kokoroko: a collage of dancing figures beside a dark sea",
+      "artist": "Kokoroko",
+      "album": "Kokoroko",
+      "pos": { "x": 920, "y": 20, "rotate": -2 }
+    },
+    {
+      "image": "../assets/photos/album-malik.jpg",
+      "alt": "Album cover of Malik: a saxophonist standing on a desert cliff above a blue pool",
+      "artist": "Venna",
+      "album": "Malik",
+      "pos": { "x": 1050, "y": 80, "rotate": 3 }
+    }
+  ],
+  "museum": [
+    {
+      "image": "../assets/photos/art-musee-carnavalet.jpg",
+      "alt": "Ornate gilded ceiling corner at the Musée Carnavalet, with a carved figure and painted panels above blue wall hangings",
+      "artist": "Artist Unknown",
+      "title": "ceiling detail, Musée Carnavalet",
+      "year": " ",
+      "pos": { "x": 370, "y": 10, "rotate": 2 }
+    },
+    {
+      "image": "../assets/photos/art-portrait-of-pere-tanguy.jpg",
+      "alt": "Portrait of Père Tanguy: a framed painting of a seated man in a blue jacket and hat, in an ornate gold frame",
+      "artist": "Vincent van Gogh",
+      "year": "1887",
+      "title": "Père Tanguy",
+      "pos": { "x": 730, "y": 290, "rotate": -2 }
+    }
+  ],
+  "sports": [
+    {
+      "image": "../assets/photos/sports-lac-kings.jpg",
+      "alt": "Basketball game seen from the upper seats of an arena, with the court below and a player on the big screen above",
+      "event": "Clippers vs Kings",
+      "date": "2023",
+      "pos": { "x": 0, "y": 270, "rotate": -2 }
+    },
+    {
+      "image": "../assets/photos/sports-okc-phx.jpg",
+      "alt": "Basketball game from the lower seats of a packed arena, with fans in the foreground, the court beyond and a large scoreboard overhead",
+      "event": "OKC vs Phoenix Suns",
+      "date": "2025",
+      "pos": { "x": 360, "y": 350, "rotate": 2 }
+    }
+  ],
+  "rightNow": {
+    "title": "Right now",
+    "listening": "A Sky Without Stars - ELIZA",
+    "watching": "Formula 1, 2026 season",
+    "visiting": "Munyu Space"
+  }
+}

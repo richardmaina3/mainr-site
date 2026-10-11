@@ -1,0 +1,30 @@
+---
+import PixelIcon from './PixelIcon.astro';
+import type { IconName } from '../../lib/pixelIcons';
+
+interface Props {
+  icon: IconName;
+  rotate?: number;
+}
+
+const { icon, rotate = 0 } = Astro.props;
+---
+
+<!-- Decorative round print with a pixel icon. -->
+<div class="sticker" style={`transform:rotate(${rotate}deg)`} aria-hidden="true">
+  <PixelIcon name={icon} size={32} />
+</div>
+
+<style>
+  .sticker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--print);
+    border: var(--border-thin);
+    box-shadow: var(--shadow-soft);
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+import { getEntry } from 'astro:content';
+import PixelIcon from '../ui/PixelIcon.astro';
+import RetroWindow from '../ui/RetroWindow.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import SkillsCloud from './SkillsCloud.astro';
+
+const work = (await getEntry('work', 'work'))!.data;
+---
+
+<section id="work" class="work">
+  <SectionLabel id="work" as="h2" />
+
+  <p class="lead">{work.lead}</p>
+
+  <div class="columns">
+    <div class="blocks">
+      {
+        work.blocks.map((block) => (
+          <article class="block">
+            <span class="icon">
+              <PixelIcon name={block.icon} size={32} />
+            </span>
+            <div>
+              <h3>{block.title}</h3>
+              <p class="anchor">{block.anchor}</p>
+              <p class="body">{block.body}</p>
+              {block.link && (
+                <a class="link" href={block.link.url}>
+                  {block.link.label}
+                </a>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <RetroWindow title={work.skillsWindowTitle} label="Skills" minBody={330}>
+      <SkillsCloud />
+    </RetroWindow>
+  </div>
+</section>
+
+<style>
+  .work {
+    margin-top: var(--section-gap);
+  }
+
+  .lead {
+    max-width: 46rem;
+    margin-top: 20px;
+    font-size: var(--text-subline);
+    line-height: var(--leading-body);
+  }
+
+  .columns {
+    display: grid;
+    gap: var(--space-6);
+    align-items: start;
+    margin-top: var(--space-6);
+  }
+
+  .blocks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .block {
+    display: flex;
+    gap: 18px;
+  }
+
+  /* A wrapper, because this component's scoped CSS cannot reach into PixelIcon's <svg>. */
+  .icon {
+    display: block;
+    flex: none;
+    width: 32px;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-subhead);
+    line-height: 1;
+  }
+
+  .anchor {
+    margin-top: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .body {
+    margin-top: 6px;
+    line-height: 1.55;
+  }
+
+  .link {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    text-underline-offset: 3px;
+  }
+
+  /* Desktop: blocks on the left, skills window fills the rest (540px + 48px gap as in the mockup). */
+  @media (min-width: 1100px) {
+    .columns {
+      grid-template-columns: minmax(0, 540px) minmax(0, 1fr);
+      gap: 48px;
+    }
+  }
+</style>

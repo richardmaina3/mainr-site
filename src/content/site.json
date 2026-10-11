@@ -1,0 +1,24 @@
+{
+  "name": "Richard Maina",
+  "email": "richardmaina3@gmail.com",
+  "eyebrow": "HI, I AM RICHARD MAINA",
+  "headline": "Multifaceted\nby design",
+  "subline": "I solve problems the way I cook dinner: see what's in the pantry, decide what I want out of it and build around that.",
+  "ctaPrimary": "Contact me",
+  "ctaSecondary": "See my work",
+  "nav": [
+    { "id": "work", "label": "Work" },
+    { "id": "cooking", "label": "Cooking" },
+    { "id": "culture", "label": "Culture" }
+  ],
+  "attribution": {
+    "text": "Pixel icons: Streamline Pixel, CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "meta": {
+    "title": "Richard Maina | Embedded engineer and adaptive problem solver",
+    "description": "Embedded and kernel engineer who also ships products, cooks and follows music, art and sport. If you have a messy problem where hardware, software and people meet, let's talk.",
+    "ogImage": "/og-image.jpg",
+    "ogImageAlt": "Three taped prints on a notebook page: Richard Maina smiling in a burgundy blazer, a gilded museum ceiling and glazed ribs in a glass dish."
+  }
+}

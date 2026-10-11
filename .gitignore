@@ -1,0 +1,29 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# secrets and local config
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# unfiltered source photos: never commit (repo is public)
+media-originals/
+
+# private reference material (design brief, mockup, personal career notes):
+# kept on disk only, never in the public repo
+planning/reference/
+
+# tooling
+.netlify/
+.DS_Store
+Thumbs.db
+npm-debug.log*
+*.log
+
+# Playwright MCP output
+.playwright-mcp/

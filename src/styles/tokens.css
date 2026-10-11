@@ -1,0 +1,72 @@
+/*
+  Design tokens: every colour, type and spacing value from the design brief (MAINR_DESIGN.md §4).
+  Components reference these, never raw hex.
+
+  Layout breakpoints (custom properties cannot be used in @media, so repeat the values):
+    desktop  >= 1100px
+    tablet   700px to 1099px
+    mobile   < 700px
+*/
+:root {
+  /* Colour */
+  --paper: #efe6d2;        /* page background (flat) */
+  --grid-line: #d8cfbc;    /* 1px background grid lines */
+  --ink: #2b221b;          /* all text, borders, arrows */
+  --cell: #f6f0e2;         /* cooking grid cell fill */
+  --print: #fbf8f0;        /* polaroid frames, nav box, secondary buttons, window body */
+  --accent: #80a1c1;       /* fills, borders, highlights. Never small text on cream. */
+  --accent-deep: #3e6a98;  /* hover fill, emphasised words. OK as text (about 4.7:1). */
+  --sticky: #cfddea;       /* sticky-note fill */
+  --warm: #c98f4a;         /* warm photo tint (placeholder art and the photo filter) */
+
+  /* Translucent ink and accent for shadows, tape and markers */
+  --ink-20: rgba(43, 34, 27, 0.2);
+  --tape: rgba(128, 161, 193, 0.6);
+  --tape-light: rgba(251, 248, 240, 0.7);
+  --marker: rgba(128, 161, 193, 0.5);
+
+  /* Borders and shadows */
+  --border-thin: 1.5px solid var(--ink);
+  --border-thick: 2px solid var(--ink);
+  --shadow-soft: 3px 3px 0 var(--ink-20);
+  --shadow-window: 4px 4px 0 var(--ink-20);
+  --shadow-btn: 3px 3px 0 var(--ink);
+  --shadow-btn-hover: 5px 5px 0 var(--ink);
+  --radius-pill: 999px;
+  --radius-grid: 16px;
+
+  /* Fonts */
+  --font-display: 'Pixelify Sans', ui-monospace, monospace;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-hand: 'Architects Daughter', cursive; /* dish annotations only */
+
+  /* Fluid type. Each clamp() runs from a 390px phone to the 1280px mockup. */
+  --text-hero: clamp(2.25rem, 1.544rem + 4.944vw, 5.5rem);      /* 36px floor, 44px at 390px, 88px at 1280px */
+  --text-section: clamp(2rem, 1.56rem + 1.8vw, 3rem);           /* 32px to 48px */
+  --text-subhead: clamp(1.375rem, 1.21rem + 0.674vw, 1.75rem);  /* 22px to 28px */
+  --text-subline: clamp(1.0625rem, 0.98rem + 0.337vw, 1.25rem); /* 17px to 20px */
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-label: 0.8125rem;
+  --leading-body: 1.5;
+
+  /* Fluid spacing */
+  --page-pad: clamp(1rem, 0.34rem + 2.7vw, 2.5rem); /* 16px to 40px */
+  --section-gap: clamp(3rem, 2.1rem + 3.6vw, 5rem); /* 48px to 80px */
+  --content-max: 1200px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Motion (button and link hover only) */
+  --transition-hover: 0.12s;
+
+  /* Page grid */
+  --grid-size: 16px;
+}

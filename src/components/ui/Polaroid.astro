@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Tape from './Tape.astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  /** Mono caption, left and right (e.g. "No. 01" and a date). */
+  captionLeft: string;
+  captionRight: string;
+  /** `lg` is the hero portrait (220px frame), `md` is a dish polaroid (172px frame). */
+  size?: 'md' | 'lg';
+  /** Width divided by height of the photo area. */
+  aspect?: number;
+  rotate?: number;
+  /** CSS object-position, e.g. "50% 30%". */
+  focus?: string;
+  tape?: { left: number; rotate: number };
+  eager?: boolean;
+}
+
+const {
+  image,
+  alt,
+  captionLeft,
+  captionRight,
+  size = 'md',
+  aspect = 1,
+  rotate = 0,
+  focus,
+  tape,
+  eager = false,
+} = Astro.props;
+
+const photoWidth = size === 'lg' ? 196 : 150;
+// Generate 2x so the print stays sharp on high-density screens.
+const width = photoWidth * 2;
+const height = Math.round(width / aspect);
+---
+
+<figure class:list={['polaroid', size]} style={`transform:rotate(${rotate}deg)`}>
+  {tape && <Tape left={tape.left} rotate={tape.rotate} width={size === 'lg' ? 76 : 72} />}
+  <Image
+    src={image}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    class="photo"
+    style={`aspect-ratio:${aspect};${focus ? `object-position:${focus}` : ''}`}
+  />
+  <figcaption>
+    <span>{captionLeft}</span>
+    <span>{captionRight}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .polaroid {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    background-color: var(--print);
+    border: var(--border-thin);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .md {
+    width: 172px;
+    padding: 10px 10px 0;
+  }
+
+  .lg {
+    width: 220px;
+    padding: 12px 12px 0;
+  }
+
+  .photo {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  figcaption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .md figcaption {
+    height: 46px;
+  }
+
+  .lg figcaption {
+    height: 48px;
+  }
+</style>

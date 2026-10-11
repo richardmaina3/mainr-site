@@ -1,0 +1,81 @@
+# Changelog
+
+## [Unreleased]
+- Local git history rebuilt as one clean commit (no `planning/reference/` in any commit; the album covers stay, by Richard's decision). Nothing pushed
+- Culture intro written (replaces the template line)
+- Dish notes rewritten around the circumstances behind each dish, not a description of it
+- Cooking dish notes are wider (up to 320px, was 184px) so the longer notes sit in three lines above the polaroids; the cells stay 340px tall
+- Hero headline is now "Multifaceted by design" (no final period)
+- Header coordinate readout is live: it stays in the header's top-left corner as plain text (scrolls with the page, no box) and follows the pointer across the page in 16px grid squares to two decimals, clamped to the page edges. Fine pointers only, off for `prefers-reduced-motion`, hidden below 700px. Adds about 0.9 KB to the inline script (approved exception to the near-zero-JavaScript goal)
+- Learning block icon is now the Streamline light bulb (`interface-essential-light-bulb`); the icon name changed from `bolt` to `bulb`
+- About note is now "Embedded engineer, Swiss Army knife edition."
+- Copy pass (voice): hero subline now uses the pantry/dinner line; Work lead rewritten around "the scarcest thing" and borrowing across fields; the three Work blocks generalized (no company names, no tool-by-tool detail); Embedded now names Zephyr and the Linux kernel (a Zephyr PR has merged), Learning mentions another Zephyr contribution in progress; block subheaders rewritten with fewer colons; Work lead and Delivery rewritten in Richard's voice (range across fields, startup speed, grit and adaptability); Oxford commas removed from all copy. Claims policy updated in CLAUDE.md, `project_status.md` and the planning docs
+- Contact email set in `site.json` (replaces the placeholder); the build no longer prints the placeholder-email warning
+- Removed the icons from the section labels (`01 / WORK`, `02 / COOKING`, `03 / CULTURE` are plain text now); `SectionLabel` no longer takes an `icon`
+- Removed the envelope icon from the header Contact pill
+- Cooking sticker icon is now the Streamline fish (`food-drink-fish`); the icon name changed from `fork` to `food`
+- `planning/reference/` (design brief, mockup, career notes) is gitignored and untracked; the local history was rebuilt without it
+- Docs: recorded the first local commit (`1a8dd7f`) and the commit-message convention used
+
+## 2026-10-11, first local commit (`1a8dd7f`)
+Everything below this heading up to the project setup entries is in the initial commit.
+- Build phase 6: real Streamline Pixel icons (generated into `src/lib/pixelIcons.ts`, slightly bolder, larger label icons); the footer credit is now accurate
+- Share image `public/og-image.jpg` (1200x630) with `og:image` size and alt metadata (`site.json` `meta.ogImage` and `meta.ogImageAlt`)
+- Fonts self-hosted in `public/fonts/` (`src/styles/fonts.css`, OFL notice in `public/fonts/README.txt`), CSS inlined, portrait `fetchpriority="high"`, headline and body fonts preloaded; `/fonts/*` cached for a year in `netlify.toml`
+- Lighthouse 13.5.0 on the production build: 100 for Performance, Accessibility, Best Practices and SEO on mobile and desktop (Performance was 84 before the font fix). `npm audit`: 0 vulnerabilities
+- Docs: `engineering_design.md` updated for self-hosted fonts and real icons
+- Real hero portrait (`portrait-2`) replaces the placeholder silhouette; no placeholder images remain. The other candidate portrait is parked in `media-originals/_unused/`
+- Photo filter: per-photo `adjustments` in `scripts/photo-filter.config.json` (`rotate`, `crop`, `whiteBalance`, `tameBlues`) replace the `rotations` setting, with validation; used for the portrait (crop, warmer white balance, calmer blue backdrop) and the sideways sports photo
+- Film grain lowered from 0.35 to 0.1 for all photos (noisy on faces at high-resolution sizes); photo files are about a third smaller
+- Real art and sports photos (2 museum, 2 sports) processed and wired into `culture.json`; the four placeholder SVGs removed. Only the hero portrait is still a placeholder image
+- Photo filter: new optional `rotations` setting in `scripts/photo-filter.config.json` for photos whose pixels are sideways with no EXIF tag (used for `sports-okc-phx`); the script now uses `autoOrient()` for EXIF
+- Build phase 5: responsive pass. Audited the page at 17 sizes (320 to 2560px, plus landscape phones); no horizontal scroll, clipping or layout shift
+- Bigger tap targets with no visual change on desktop: header nav links, footer links, and (on phones) the header Contact pill and menu button, all at least 44px below 700px
+- Hero stickers now stay together as one row when the scrapbook corner stacks (was splitting around 600px)
+- Docs: added a "Post-v1 tasks" section for the wide-screen scaling study; v1 keeps the 1200px content cap
+- Build phase 4, step 5: the `Footer` (build-time copyright year, optional LinkedIn link, Streamline Pixel CC BY 4.0 credit); `index.astro` now renders the whole page. Phase 4 is complete
+- `site.json` gains `attribution { text, url? }`; recorded in `engineering_design.md` §4
+- Build phase 4, step 4: the `Culture` section and `CultureCollage` with `AlbumCover`, `MuseumPrint`, `SportsPrint` and the "Right now" note; a 1200px canvas that scales with the page column on desktop and stacks below 1100px; `index.astro` now renders Header, Hero, Work, Cooking and Culture
+- `StickyNote` accepts a CSS width string as well as a pixel number
+- Build phase 4, step 3: the `Cooking` section and `DishCell` (ruled 3/2/1-column grid, intro cell, polaroids with handwritten annotations and arrows); `index.astro` now renders Header, Hero, Work and Cooking
+- `SectionLabel` line height tightened so the grid matches the mockup's spacing
+- Build phase 4, step 2: `RetroWindow`, `SectionLabel`, `SkillsCloud` and the `Work` section (lead paragraph, Embedded / Delivery / Learning blocks, `skills.exe` skills cloud); `index.astro` now renders Header, Hero and Work
+- Header: below 700px the nav becomes a hamburger menu (Contact pill stays visible, a native `<details>` toggle opens a panel with the section links). Tablet and desktop unchanged. Adds a 235-byte inline script that closes the menu on link click and on Escape
+- Hero scrapbook corner moved 16px lower than the mockup on desktop (tape now 44px under the nav box, was 28px); text spacing unchanged
+- Build phase 4, step 1: UI components `PixelIcon`, `PillButton`, `Tape`, `Sticker`, `Polaroid`, `StickyNote` (`src/components/ui/`) and sections `Header` and `Hero` (`src/components/sections/`), built from JSON and matched to the mockup
+- `src/lib/pixelIcons.ts`: icon names and stand-in shapes (the content schema now reads its icon list from here)
+- `site.json` gains `nav` (page sections in order, used for header links and section labels); recorded in `engineering_design.md` §4
+- `index.astro` is now Header + Hero. The temporary photo preview and colour swatches are removed
+- Hero headline size floor lowered from 44px to 36px so it fits a 320px screen; header nav wraps on the narrowest phones (no horizontal scroll at any width from 320px to 1920px)
+- Playwright `browser_evaluate` and `browser_run_code_unsafe` moved to the allow list
+- Dropped the album *A Sky Without Stars*: v1 shows 4 album covers again, in the mockup's positions. Original parked in `media-originals/_unused/`
+- Photo script ignores folders starting with `_`
+- Temporary photo preview strip (5 dishes as polaroids, 5 albums as covers) on the smoke-test `index.astro`, so Richard can see the processed photos before phase 4. To be removed in phase 4
+- First real photo batch processed: 5 dishes and 5 albums (metadata stripped), wired into `cooking.json` and `culture.json`; the replaced placeholder SVGs removed
+- `sharp` 0.35.5 added to `package.json` as an explicit dependency
+- `tsconfig.json` excludes `scripts/` from type-checking
+- Build phase 3: photo filter script `scripts/process-photos.mjs` with `scripts/photo-filter.config.json` and an `npm run photos` command (orient, strip EXIF/GPS/ICC, warm tint, film grain, 1600px cap, incremental, duplicate-name check, HEIC warning)
+- Photos now live in one flat folder each: `media-originals/` (input, gitignored) and `src/assets/photos/` (output). Placeholder SVGs moved up a level and JSON image paths shortened
+- Planning docs: `engineering_design.md` (§3, §5, §8, §10) and `product_requirements.md` (Flow 3) updated for the flat photo layout
+- Build phase 2: content layer. `src/content.config.ts` with Zod schemas for site, hero, work, skills, cooking and culture (required `alt`, validated image paths, skill tiers 1 to 6)
+- Starter JSON in `src/content/` with placeholder copy, and 14 placeholder SVG images in `src/assets/photos/`
+- Planning docs: `work.skillsWindowTitle` and `rightNow.title` added to the content schema (`engineering_design.md` §4)
+- Planning docs: album covers changed from 5 to 4 to match the mockup (`product_requirements.md` §4, `engineering_design.md` §12); the fifth placeholder album removed
+- `src/lib/contentWarnings.ts`: build warnings for the placeholder email and overlong copy
+- `index.astro` reads all collections, so bad content fails the build (verified for an empty `alt` and a wrong image path)
+- Build phase 1: Astro 7.3.5 scaffold (`package.json`, `.npmrc`, `.nvmrc`, `.gitignore`, `tsconfig.json`, `astro.config.mjs`, `netlify.toml`, `.env.example`)
+- Design tokens (`src/styles/tokens.css`) and global styles with the 16px hairline grid (`src/styles/global.css`)
+- `BaseLayout` with meta and og tags, favicon and the four Google Fonts
+- Placeholder smoke-test `index.astro`, `public/favicon.svg` and `public/robots.txt`
+- Dependencies installed and pinned: `astro` 7.3.5, `@astrojs/check` 0.9.10, `typescript` 6.0.3
+- Local git repo initialised on `main` (no commits yet)
+- `planning/engineering_design.md` §11: corrected the stale Playwright MCP line (it is connected and working)
+- Initial project setup
+- Planning docs: product requirements and engineering design
+- Public GitHub repo created (`richardmaina3/mainr-site`, empty)
+- CLAUDE.md, Architecture.md, project_status.md and a `.env` template
+- Reference files moved into `planning/reference/`
+- Single-feature build workflow chosen
+- Permissions (`.claude/settings.local.json`) and a dependency policy for npm supply-chain caution
+- Playwright MCP verified working
+- `/update-docs` custom command (`.claude/commands/update-docs.md`) to sync docs at the end of each step
