@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Phase 7: the site is live at https://mainr.netlify.app (`SITE_URL` set; canonical and share URLs verified). Lighthouse on the live URL: desktop 99/100/100/100, mobile 99/100/100/92 (the 92 is a robots.txt fetch timeout in the audit, not a real error)
+- Museum title capitalised: "Ceiling detail, Musée Carnavalet"
 - First push: `main` (one commit, `9416d3c`, 74 files) is on https://github.com/richardmaina3/mainr-site. Checked on GitHub: no `planning/reference/`, `.env`, originals or local settings. The remote uses HTTPS because SSH keys are not set up here
 - Local git history rebuilt as one clean commit (no `planning/reference/` in any commit; the album covers stay, by Richard's decision). Nothing pushed
 - Culture intro written (replaces the template line)
