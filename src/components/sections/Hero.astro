@@ -25,7 +25,8 @@ const stickerSlots = [
     <p class="subline">{site.subline}</p>
     <div class="ctas">
       <PillButton href={`mailto:${site.email}`}>{site.ctaPrimary}</PillButton>
-      <PillButton href="#work" variant="secondary">{site.ctaSecondary}</PillButton>
+      <!-- Opens the résumé window (ResumeDialog.astro); the link is also what makes /#resume shareable. -->
+      <PillButton href="#resume" variant="secondary">{site.ctaSecondary}</PillButton>
     </div>
   </div>
 

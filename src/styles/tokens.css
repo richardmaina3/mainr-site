@@ -18,6 +18,8 @@
   --accent-deep: #3e6a98;  /* hover fill, emphasised words. OK as text (about 4.7:1). */
   --sticky: #cfddea;       /* sticky-note fill */
   --warm: #c98f4a;         /* warm photo tint (placeholder art and the photo filter) */
+  --warm-deep: #8a5a1f;    /* text-safe warm brown (about 5.5:1 on --print). The résumé's role and date lines. */
+  --scrim: rgba(43, 34, 27, 0.5); /* flat dimming behind the résumé window */
 
   /* Translucent ink and accent for shadows, tape and markers */
   --ink-20: rgba(43, 34, 27, 0.2);

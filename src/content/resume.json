@@ -1,0 +1,88 @@
+{
+  "windowTitle": "resume.exe",
+  "label": "Resume",
+  "sections": [
+    {
+      "heading": "Experience",
+      "entries": [
+        {
+          "title": "The Moth Company Incorporated, Crete, Illinois (Remote)",
+          "subtitle": "Head of Product Development, May 2024 – March 2026",
+          "bullets": [
+            "Delivered an AI-powered recommendation service powered by Python, Supabase/Postgres embeddings, and serverless edge functions, supporting 1,200+ sessions within two months.",
+            "Owned technical planning and delivery: scoped requirements, coordinated implementation & testing through production release."
+          ]
+        },
+        {
+          "title": "Qualcomm Incorporated, San Diego, California",
+          "subtitle": "Engineer, June 2022 – December 2023, Engineering Intern, May 2021 – August 2021",
+          "bullets": [
+            "Enhanced device performance and stability by designing, implementing and validating Linux kernel IPC driver features in C for Android BSP, supporting HW/SW interfaces using RPMsg, Qualcomm IPC Router and Glink over SMEM.",
+            "Reproduced complex system failures and isolated root causes using JTAG/TRACE32 and kernel instrumentation, driving fixes through validation with cross-functional teams.",
+            "Optimized debugging pipelines by developing a boot-time tracing tool in C++ using ftrace tracepoints, improving fault isolation during device initialization and reducing time spent diagnosing root cause.",
+            "Enabled recovery from crashed remote processors via patches merged into the mainline Linux kernel (v6.11), implementing a hardware-lock API and Qualcomm driver support (lore.kernel.org).",
+            "Implemented and profiled lightweight TCP/IP (lwIP) stack in C, evaluating throughput and latency tradeoffs to assess feasibility as an IPC transport channel."
+          ]
+        },
+        {
+          "title": "Molecular and Biochemical Telecommunications (MBITE) Lab, Lincoln, Nebraska",
+          "subtitle": "Graduate Research Assistant, Research Assistant, September 2019 – May 2022",
+          "bullets": [
+            "Modeled linearized neuron behavior using Python (pandas, numpy, mpmath), enabling accurate channel power estimation.",
+            "Published Master's Thesis in Simulating Sub-Threshold Communication Channels through Neurons."
+          ]
+        },
+        {
+          "title": "GC Image LLC, Lincoln, Nebraska",
+          "subtitle": "Software Engineering Intern, August 2019 – May 2020",
+          "bullets": [
+            "Built KNN and Logistic Regression models in Java to classify chromatography results, including data preprocessing and metric-driven evaluation, achieving +98% accuracy and improving classification consistency."
+          ]
+        },
+        {
+          "title": "Housing Technology Solutions Help Desk, Lincoln, Nebraska",
+          "subtitle": "Technician, September 2016 – October 2019",
+          "bullets": [
+            "Led a team of student workers responsible for maintenance of the University housing network consisting of 300+ devices.",
+            "Responded to user support tickets, troubleshooting technical issues related to network connectivity, hardware and software."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Projects",
+      "entries": [
+        {
+          "title": "Zephyr RTOS: Contributions to Driver Subsystem",
+          "bullets": [
+            "Active contributor to the driver subsystem, merged a CAN driver Kconfig cleanup and currently developing a further fix, validated on ESP32 hardware."
+          ]
+        },
+        {
+          "title": "Metal-Mirror: AI Hardware Emulation and Performance Benchmarking, C++, Python",
+          "bullets": [
+            "Emulated Tenstorrent's tt-metal programming model on a Linux multicore system using pthreads and POSIX shared memory, profiling data movement overhead with perf to quantify the software vs silicon performance gap."
+          ]
+        },
+        {
+          "title": "Autonomous Self-balancing robot, C, Python",
+          "bullets": [
+            "Engineered an autonomous self-balancing robot on a Balboa 32U4 (ATmega32U4 microcontroller) integrating IMU(gyroscope/accelerometer), and motor encoders with a custom PID controller in C, enabling stable balance control."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Education",
+      "entries": [
+        {
+          "title": "University of Nebraska–Lincoln (UNL), Lincoln, Nebraska",
+          "lines": [
+            "Master of Science in Computer Science and Engineering, May 2022",
+            "Bachelor of Engineering in Computer Engineering, May 2020"
+          ]
+        }
+      ]
+    }
+  ]
+}

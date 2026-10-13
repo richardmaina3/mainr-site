@@ -93,6 +93,34 @@ const work = defineCollection({
   }),
 });
 
+const resume = defineCollection({
+  loader: singleton('src/content/resume.json', 'resume'),
+  schema: z.object({
+    // Decorative filename in the retro window's title bar, and the dialog's accessible name.
+    windowTitle: text,
+    label: text,
+    // Sections render in order. An entry is a bold title, an optional coloured line (role and
+    // dates), plain lines (for example degrees) and bullets.
+    sections: z
+      .array(
+        z.object({
+          heading: text,
+          entries: z
+            .array(
+              z.object({
+                title: text,
+                subtitle: z.string().trim().optional(),
+                lines: z.array(text).optional(),
+                bullets: z.array(text).optional(),
+              }),
+            )
+            .min(1),
+        }),
+      )
+      .min(1),
+  }),
+});
+
 const skills = defineCollection({
   loader: listAs('src/content/skills.json', 'skills', 'words'),
   schema: z.object({
@@ -152,4 +180,4 @@ const culture = defineCollection({
     }),
 });
 
-export const collections = { site, hero, work, skills, cooking, culture };
+export const collections = { site, hero, work, resume, skills, cooking, culture };

@@ -6,16 +6,33 @@ interface Props {
   label: string;
   /** Minimum body height in px. */
   minBody?: number;
+  /** Makes the last title-bar square a real close button (for dialogs). Elsewhere the squares are decoration. */
+  closable?: boolean;
+  closeLabel?: string;
 }
 
-const { title, label, minBody } = Astro.props;
+const { title, label, minBody, closable = false, closeLabel = 'Close' } = Astro.props;
 ---
 
 <section class="window" aria-label={label}>
-  <!-- The title bar is decoration only, so it is hidden from assistive tech. -->
-  <div class="bar" aria-hidden="true">
-    <span class="title">{title}</span>
-    <span class="buttons"><span></span><span></span><span></span></span>
+  <!-- The title bar is decoration only, so it is hidden from assistive tech (except a dialog's close button). -->
+  <div class="bar" aria-hidden={closable ? undefined : 'true'}>
+    <span class="title" aria-hidden="true">{title}</span>
+    <span class="buttons">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      {
+        closable ? (
+          <button type="button" class="close" data-close aria-label={closeLabel}>
+            <svg width="10" height="10" viewBox="1 1 5 5" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false">
+              <path d="M1 1h1v1h-1z M5 1h1v1h-1z M2 2h1v1h-1z M4 2h1v1h-1z M3 3h1v1h-1z M2 4h1v1h-1z M4 4h1v1h-1z M1 5h1v1h-1z M5 5h1v1h-1z" />
+            </svg>
+          </button>
+        ) : (
+          <span aria-hidden="true" />
+        )
+      }
+    </span>
   </div>
   <div class="body" style={minBody ? `min-height:${minBody - 34}px` : undefined}>
     <slot />
@@ -24,6 +41,8 @@ const { title, label, minBody } = Astro.props;
 
 <style>
   .window {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
     background-color: var(--print);
     border: var(--border-thick);
@@ -32,6 +51,7 @@ const { title, label, minBody } = Astro.props;
 
   .bar {
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: space-between;
     height: 34px;
@@ -48,7 +68,8 @@ const { title, label, minBody } = Astro.props;
     gap: 6px;
   }
 
-  .buttons span {
+  .buttons > span,
+  .close {
     width: 14px;
     height: 14px;
     box-sizing: border-box;
@@ -56,11 +77,46 @@ const { title, label, minBody } = Astro.props;
     border: var(--border-thin);
   }
 
+  /* The dialog's close button: same square, with a tap area of about 34px around it. */
+  .close {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: var(--ink);
+    cursor: pointer;
+    transition:
+      background-color var(--transition-hover),
+      color var(--transition-hover);
+  }
+
+  .close::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+  }
+
+  .close:hover,
+  .close:focus-visible {
+    background-color: var(--accent-deep);
+    color: var(--print);
+  }
+
+  .close:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  /* A window with a height limit (the résumé dialog) scrolls its body, not the whole window. */
   .body {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
+    min-height: 0;
     box-sizing: border-box;
     padding: 28px;
+    overflow: auto;
+    overscroll-behavior: contain;
   }
 
   @media (max-width: 699px) {

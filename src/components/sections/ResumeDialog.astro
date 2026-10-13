@@ -1,0 +1,174 @@
+---
+import { getEntry } from 'astro:content';
+import RetroWindow from '../ui/RetroWindow.astro';
+
+const { windowTitle, label, sections } = (await getEntry('resume', 'resume'))!.data;
+---
+
+<!-- A modal résumé window (opened by the hero's Resume link, or by visiting /#resume). Content lives in resume.json. -->
+<dialog id="resume" aria-label={label}>
+  <RetroWindow title={windowTitle} label={label} closable>
+    <div class="doc">
+      {
+        sections.map((section) => (
+          <section class="part">
+            <h2>{section.heading}</h2>
+            {section.entries.map((entry) => (
+              <article class="entry">
+                <h3>{entry.title}</h3>
+                {entry.subtitle && <p class="role">{entry.subtitle}</p>}
+                {entry.lines?.map((line) => <p class="line">{line}</p>)}
+                {entry.bullets && (
+                  <ul>
+                    {entry.bullets.map((bullet) => (
+                      <li>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </section>
+        ))
+      }
+    </div>
+  </RetroWindow>
+</dialog>
+
+<script>
+  // Opening from a link adds #resume to the history, so the Back button, the close button, Escape and a
+  // click outside the window all close it and leave the history as it was. A direct link to /#resume
+  // starts from a clean entry, so Back never leaves the site.
+  const dialog = document.querySelector<HTMLDialogElement>('dialog#resume');
+  if (dialog) {
+    const hash = '#resume';
+    const open = () => {
+      if (!dialog.open) dialog.showModal();
+    };
+
+    // Only a press that started on the backdrop closes it, so dragging a text selection out of the window does not.
+    let pressedBackdrop = false;
+    document.addEventListener('pointerdown', (event) => {
+      pressedBackdrop = event.target === dialog;
+    });
+    document.addEventListener('click', (event) => {
+      const target = event.target as Element;
+      if (target.closest(`a[href="${hash}"]`)) {
+        event.preventDefault();
+        history.pushState(null, '', hash);
+        open();
+      } else if ((target === dialog && pressedBackdrop) || target.closest('[data-close]')) {
+        dialog.close();
+      }
+    });
+
+    dialog.addEventListener('close', () => {
+      if (location.hash === hash) history.back();
+    });
+    addEventListener('popstate', () => {
+      if (location.hash === hash) open();
+      else if (dialog.open) dialog.close();
+    });
+
+    if (location.hash === hash) {
+      history.replaceState(null, '', location.pathname + location.search);
+      history.pushState(null, '', hash);
+      open();
+    }
+  }
+</script>
+
+<style>
+  dialog {
+    width: 100%;
+    max-width: min(760px, calc(100vw - 2rem));
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+  }
+
+  dialog::backdrop {
+    background-color: var(--scrim);
+  }
+
+  /* The page behind does not scroll while the window is open. */
+  :global(html:has(dialog[open])) {
+    overflow: hidden;
+  }
+
+  /* The window caps its own height and scrolls its body (RetroWindow's markup, so :global). */
+  dialog :global(.window) {
+    max-height: calc(100dvh - 3rem);
+  }
+
+  /* The document: DM Sans, with section headings in blue and role lines in warm brown. */
+  .doc {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  h2 {
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-1);
+    border-bottom: 1.5px solid var(--accent);
+    color: var(--accent-deep);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .part + .part {
+    margin-top: var(--space-6);
+  }
+
+  .entry + .entry {
+    margin-top: var(--space-4);
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .role {
+    margin: 2px 0 var(--space-1);
+    color: var(--warm-deep);
+    font-weight: 500;
+  }
+
+  .line {
+    margin: 2px 0 0;
+  }
+
+  ul {
+    margin: var(--space-1) 0 0;
+    padding-left: 1.15em;
+  }
+
+  li {
+    margin-top: var(--space-1);
+  }
+
+  li::marker {
+    color: var(--accent-deep);
+  }
+
+  /* Phones: the window fills the screen. */
+  @media (max-width: 699px) {
+    dialog {
+      max-width: none;
+      height: 100%;
+      margin: 0;
+    }
+
+    dialog :global(.window) {
+      height: 100%;
+      max-height: none;
+      box-shadow: none;
+    }
+  }
+</style>
