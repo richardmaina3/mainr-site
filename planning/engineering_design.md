@@ -77,6 +77,7 @@ BaseLayout (head, meta, fonts, tokens, grid background)
  ├─ Header        (coord readout · nav box · Contact pill)
  ├─ Hero          (text column · scrapbook corner)
  ├─ Work          (lead · 3 WorkBlocks · RetroWindow → SkillsCloud)
+ ├─ ResumeDialog  (modal `<dialog>`: RetroWindow → résumé sections from resume.json; opened by the hero's Resume link or /#resume)
  ├─ Cooking       (intro cell · 5 DishCells in a ruled grid)
  ├─ Culture       (intro · collage: Albums, Museum, Sports, RightNow)
  └─ Footer        (copyright · icon attribution · optional links)
@@ -92,7 +93,7 @@ Singleton files are single-entry collections. List-style files are arrays of ent
 
 | File | Contents |
 |---|---|
-| `site.json` | `name`, `email`, `eyebrow`, `headline`, `subline`, `ctaPrimary`, `ctaSecondary`, `nav[] {id, label}` (the page sections in order, used for the header links and the `01 / WORK` section labels), `attribution {text, url?}` (the footer's Streamline Pixel CC BY 4.0 credit), `linkedin` (URL, optional until provided), `meta {title, description, ogImage}` |
+| `site.json` | `name`, `email`, `eyebrow`, `headline`, `subline`, `ctaPrimary`, `ctaSecondary` (the Resume button), `nav[] {id, label}` (the page sections in order, used for the header links and the `01 / WORK` section labels), `attribution {text, url?}` (the footer's Streamline Pixel CC BY 4.0 credit), `linkedin` (URL, optional until provided), `meta {title, description, ogImage}` |
 | `hero.json` | `portrait {image, alt, caption, year, focus?}`, `aboutNote {title, text}`, `stickers[]` (icon names) |
 | `work.json` | `lead` (string), `skillsWindowTitle` (the decorative filename in the retro window's title bar, e.g. `skills.exe`) and `blocks[3] {id, icon, title, anchor, body, link?}` for **Embedded**, **Delivery**, **Learning** |
 | `skills.json` | `[{label, tier 1–6, font: "sans" \| "pixel", accent: boolean}]` (array order is display order) |
@@ -142,7 +143,8 @@ Render the brief's scrapbook vocabulary once and reuse it. No component hardcode
 | `Tape` | Translucent accent strip. `aria-hidden`, decorative. |
 | `Polaroid` | Frame, 10px padding, hard shadow, `No. 0N` / date caption, rotation, optional tape |
 | `StickyNote` | `#CFDDEA` note with Pixelify title (About me, Right now) |
-| `RetroWindow` | `skills.exe` window with title bar and three square buttons |
+| `RetroWindow` | `skills.exe` and `resume.exe` windows with a title bar and three square buttons (`closable` makes the last one a real close button) |
+| `ResumeDialog` | Modal `<dialog>` holding the résumé (Experience, Projects, Education from `resume.json`: `windowTitle`, `label`, `sections[] {heading, entries[] {title, subtitle?, lines?, bullets?}}`). A small inline script opens it from the hero's `#resume` link or a direct `/#resume` visit and keeps the history in step (Back, Escape, the close button and a click outside all close it). Headings use `--accent-deep`, role lines `--warm-deep`, DM Sans throughout. Any text can hold `[visible text](https://address)` links (`src/lib/inlineLinks.ts`, rendered by `RichText`; https only, a malformed link fails the build). Full-screen on phones. |
 | `SkillsCloud` | Maps `skills.json` to `<span>`s sized by tier (real text, no canvas) |
 | `DishCell` | One cooking cell: polaroid in a lower corner, annotation in the opposite upper corner, arrow SVG. Side alternates by index. |
 | `CultureCollage` | Absolute-positioned canvas on desktop from `pos` data. Stacked flow on smaller screens. |

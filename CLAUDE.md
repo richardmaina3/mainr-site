@@ -1,6 +1,6 @@
 # MainR Site
 
-A static, single-page personal site for Richard Maina: an adaptive problem solver with an embedded/kernel core, shipped-software experience and real-life interests (cooking, music, art, sport). It is a landing page for recruiters (mostly embedded/platform) and business connections, built to get one idea across: *"This guy could solve my problem."* It is **not a résumé**. It discusses achievements without reproducing résumé-level detail. Look and feel: an engineer's notebook page with a scrapbook on it and a Y2K desktop in the margins.
+A static, single-page personal site for Richard Maina: an adaptive problem solver with an embedded/kernel core, shipped-software experience and real-life interests (cooking, music, art, sport). It is a landing page for recruiters (mostly embedded/platform) and business connections, built to get one idea across: *"This guy could solve my problem."* It is **not a résumé**. It discusses achievements without reproducing résumé-level detail. The one deliberate exception is the `resume.exe` window (opened by the hero's Resume button, 2026-10-13), which shows the Experience, Projects and Education sections verbatim from `resume.json`; everything else on the page stays general. Look and feel: an engineer's notebook page with a scrapbook on it and a Y2K desktop in the margins.
 
 Built with Astro, deployed on Netlify from GitHub (`richardmaina3/mainr-site`, public). All copy, captions and the skills word cloud live in JSON. Photos pass through a build-time warm-grain filter script.
 
@@ -9,7 +9,7 @@ Full design source of truth: `planning/engineering_design.md` (requirements: `pl
 ## Current Status
 **Phase:** Build phases 1 to 6 done (scaffold, content layer, photo filter, components, responsive pass, icons plus accessibility and performance pass), except Richard's own text pass. Phase 7 (Netlify launch): the site is live at https://mainr.netlify.app (2026-10-13); the custom domain and the PR workflow are left.
 **Last completed:** Phase 6 (2026-10-11). Real Streamline Pixel icons (slightly bolder; afterwards the section-label and header-pill icons were removed and the Cooking sticker became the Streamline fish, `food-drink-fish`), a 1200x630 share image (`public/og-image.jpg`) with alt text, and fonts self-hosted in `public/fonts/` with inline CSS. Lighthouse 13.5.0 on the production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100 on both the mobile and desktop profiles (the first run scored Performance 84 because the Google Fonts stylesheet blocked first paint). Own audit: all 86 text elements pass contrast (lowest 5.32:1), keyboard order and focus verified. `npm audit`: 0 vulnerabilities. All 14 photos are real and processed. Only JavaScript: a 235-byte inline script for the mobile menu. Earlier: whole page built, responsive sweep at 17 sizes, grain lowered to 0.1. Full detail in `project_status.md`.
-**Next step:** The copy pass is done (hero, About, Work, Culture intro and dish notes were rewritten in Richard's voice on 2026-10-11); only small tweaks he makes himself remain. The favicon decision is postponed and the Contact button wording stays. The contact email is set (`richardmaina3@gmail.com`, 2026-10-11). The local history was rebuilt as one clean commit on 2026-10-11 (no `planning/reference/` in it), and Richard decided to keep the album covers as they are (he knows a public push publishes them). Pushed to GitHub on 2026-10-11 (`origin` = `https://github.com/richardmaina3/mainr-site.git`, `main` at `9416d3c`). The site is live on Netlify at https://mainr.netlify.app (`SITE_URL` set, canonical and share URLs verified, Lighthouse 99/100/100/92-100 on the live URL). Still to do: a custom domain (then update `SITE_URL`), the PR versus direct-merge decision, and Richard checking the LinkedIn share preview once the domain is set. Dev server: http://localhost:4321 (restart it after changing `content.config.ts` or adding a `<script>`). For larger pieces of work, follow the full feature-dev workflow (Richard's request). Say what will be built before starting.
+**Next step:** The copy pass is done (hero, About, Work, Culture intro and dish notes were rewritten in Richard's voice on 2026-10-11); only small tweaks he makes himself remain. The favicon decision is postponed and the Contact button wording stays. The contact email is set (`richardmaina3@gmail.com`, 2026-10-11). The local history was rebuilt as one clean commit on 2026-10-11 (no `planning/reference/` in it), and Richard decided to keep the album covers as they are (he knows a public push publishes them). Pushed to GitHub on 2026-10-11 (`origin` = `https://github.com/richardmaina3/mainr-site.git`, `main` at `9416d3c`). The site is live on Netlify at https://mainr.netlify.app (`SITE_URL` set, canonical and share URLs verified, Lighthouse 99/100/100/92-100 on the live URL). A résumé window (hero Resume button, `resume.json`) is built on branch `feature/resume-window` and awaits a deploy-preview check and merge. Still to do: a custom domain (then update `SITE_URL`), the PR versus direct-merge decision, and Richard checking the LinkedIn share preview once the domain is set. Dev server: http://localhost:4321 (restart it after changing `content.config.ts` or adding a `<script>`). For larger pieces of work, follow the full feature-dev workflow (Richard's request). Say what will be built before starting.
 **Blockers:** None.
 **Full history & detail:** see `project_status.md`
 
@@ -54,7 +54,7 @@ Non-negotiable. Do not reverse these quietly.
 - **Handwriting font (Architects Daughter) appears only on the cooking dish annotations**, uppercase.
 - **Cooking is a ruled cell grid; Culture is a loose collage.** They must never share a layout.
 - **Skills cloud is real HTML/CSS text**: no canvas, no word-cloud library.
-- **Static and light:** minimal JavaScript (a small inline script for the mobile menu close and the live coordinate readout, an approved exception), no animation libraries. Four fonts, self-hosted (`public/fonts/`, `src/styles/fonts.css`), `font-display: swap`, only the weights used.
+- **Static and light:** minimal JavaScript (small inline scripts for the mobile menu close, the live coordinate readout and the résumé dialog, all approved exceptions), no animation libraries. Four fonts, self-hosted (`public/fonts/`, `src/styles/fonts.css`), `font-display: swap`, only the weights used.
 - **Smooth scaling:** fluid type and spacing with `clamp()`, content capped at 1200px, layout shifts at 1100px and 700px, no horizontal scroll at any width. See §6.
 - **Out of v1:** separate pages, blog, contact form (mailto only), CMS, analytics, dark mode, résumé PDF, GitHub link, the "More plates" pill. See product_requirements.md §5.
 
@@ -99,6 +99,7 @@ MainR_site/
    │  ├─ site.json
    │  ├─ hero.json
    │  ├─ work.json
+   │  ├─ resume.json
    │  ├─ skills.json
    │  ├─ cooking.json
    │  └─ culture.json
@@ -110,15 +111,16 @@ MainR_site/
    │  └─ global.css
    ├─ lib/
    │  ├─ pixelIcons.ts        # Streamline Pixel icon paths and names
+   │  ├─ inlineLinks.ts       # [text](https://…) links inside content text
    │  └─ contentWarnings.ts   # build-time soft-limit warnings
    ├─ layouts/
    │  └─ BaseLayout.astro
    ├─ components/
    │  ├─ ui/                  # PillButton, PixelIcon, Sticker, Tape, Polaroid,
-   │  │                       # StickyNote, RetroWindow, SectionLabel,
+   │  │                       # StickyNote, RetroWindow, RichText, SectionLabel,
    │  │                       # AlbumCover, MuseumPrint, SportsPrint
    │  └─ sections/            # Header, Hero, Work, SkillsCloud, Cooking, DishCell,
-   │                          # Culture, CultureCollage, Footer
+   │                          # Culture, CultureCollage, ResumeDialog, Footer
    └─ pages/
       └─ index.astro
 ```

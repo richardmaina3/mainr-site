@@ -10,7 +10,7 @@
 - **What problem does it solve?** A résumé lists what Richard did. It does not show how he thinks or why he is a good fit for messy, cross-disciplinary problems. The site is a landing page that gets one idea across: *"This guy could solve my problem."*
 - **What does it do?** A single-page, static personal site for Richard Maina, an adaptive problem solver with an embedded/kernel core, shipped-software experience and real-life interests (cooking, music, art, sport). It leads with how he works and keeps all the personality out of the way of scannability.
 
-The site is **not a résumé**. It discusses achievements without reproducing exact résumé detail (dates, bullet-level metrics).
+The site is **not a résumé**. It discusses achievements without reproducing exact résumé detail (dates, bullet-level metrics). The one exception, added 2026-10-13 at Richard's request, is the `resume.exe` window opened by the hero's Resume button: it shows the Experience, Projects and Education sections verbatim.
 
 ## 2. Goal type & rigor
 
@@ -21,7 +21,7 @@ The site is **not a résumé**. It discusses achievements without reproducing ex
 ### Flow 1 — Recruiter skim (the flow that matters most)
 1. Lands on the page and sees the header (coordinate readout, nav box with `Work · Cooking · Culture` links, **Contact me** pill).
 2. Reads the hero: the eyebrow `HI, I AM RICHARD MAINA`, the headline and a one-sentence subline. A portrait polaroid, an "About me" sticky note and three pixel stickers give personality without competing with the text.
-3. Clicks **See my work**, which scrolls to `01 / WORK`.
+3. Clicks **Resume**, which opens a modal `resume.exe` window with the Experience, Projects and Education sections (close with the X, Escape, a click outside or Back; `/#resume` opens it directly).
 4. Reads the **lead paragraph**: two or three sentences on the method (name the limiting constraint, design inside it) and the multidisciplinary direction.
 5. Scans the three blocks, each opening with a bold one-line anchor:
    - **Embedded:** Qualcomm IPC and diagnostics, a Linux kernel contribution.
@@ -49,7 +49,7 @@ The site is **not a résumé**. It discusses achievements without reproducing ex
 
 **Content and structure (all from the design brief, unchanged in layout)**
 - Single scrolling page in this order: **Header, Hero, Work, Cooking, Culture, Footer.** Section labels in the form `01 / WORK`.
-- **Hero:** eyebrow, large Pixelify headline, subline, two pill buttons (Contact me, See my work), portrait polaroid, "About me" sticky note, three round stickers (chip, fish, music note).
+- **Hero:** eyebrow, large Pixelify headline, subline, two pill buttons (Contact me, Resume), portrait polaroid, "About me" sticky note, three round stickers (chip, fish, music note).
 - **Work (the primary section):**
   - Hybrid format: a short lead paragraph, then three blocks titled **Embedded**, **Delivery** and **Learning**, each with a pixel icon (chip, box, bulb), a one-line bold anchor and 1–2 sentences.
   - A retro-window skills cloud: the word cloud sits inside a small old-OS style window (the Y2K accent from the design brief). Its title bar shows a decorative fake filename, `skills.exe`, plus three decorative square window buttons. Nothing is downloaded or run, and the filename is editable in the JSON. The cloud is built from real HTML/CSS text (no canvas, no library). It mixes technical, delivery and soft skills, plus cooking and horology.

@@ -1,6 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+- Résumé links: text in `resume.json` (titles, role lines, lines, bullets) can hold `[visible text](https://address)` links. New `src/lib/inlineLinks.ts` (the parser and a validator) and `RichText` component (`src/components/ui/`); the schema fails the build on a malformed or non-https link (the error names the entry and bullet). Links open in a new tab (`noopener noreferrer`, `aria-label` says so), in the heading blue with an underline and a visible focus ring
+- The Qualcomm bullet's "lore.kernel.org" is a real link again (to the mainline patch thread); it was a hyperlink in the original résumé that the first conversion had dropped
+- Feature branch `feature/resume-window`: the hero's second button is now **Resume** (was "See my work") and opens a modal `resume.exe` window with the Experience, Projects and Education sections of the résumé, verbatim, from the new `src/content/resume.json` (schema in `content.config.ts`: `windowTitle`, `label`, `sections[] {heading, entries[] {title, subtitle?, lines?, bullets?}}`)
+- New `ResumeDialog` section component: a native `<dialog>` (page behind inert, focus trapped and returned to the button, page scroll locked), DM Sans, section headings in `--accent-deep` with a thin rule, role and date lines in the new `--warm-deep` token (5.55:1 on `--print`), full-screen on phones. It closes with the X, Escape, a click outside the window or the Back button
+- Shareable link: opening the window adds `#resume` to the history, and visiting `/#resume` opens it directly; closing leaves the history as it was. Done with a small inline script (about 0.9 KB), a second approved JavaScript exception
+- `RetroWindow` gained a `closable` option (the last square becomes a real close button) and now scrolls its body when the window has a height limit; the skills.exe window is unchanged
+- No-JavaScript fallback: with scripting off, the Resume link still shows the window as a plain overlay (CSS `:target` inside `@media (scripting: none)`) with a text Close link
+- New tokens `--warm-deep` and `--scrim` in `tokens.css`
+- Docs: the "not a résumé" principle now carries this one exception (CLAUDE.md, `product_requirements.md`); component and data docs updated. Résumé PDF download is still out of scope
 - Phase 7: the site is live at https://mainr.netlify.app (`SITE_URL` set; canonical and share URLs verified). Lighthouse on the live URL: desktop 99/100/100/100, mobile 99/100/100/92 (the 92 is a robots.txt fetch timeout in the audit, not a real error)
 - Museum title capitalised: "Ceiling detail, Musée Carnavalet"
 - First push: `main` (one commit, `9416d3c`, 74 files) is on https://github.com/richardmaina3/mainr-site. Checked on GitHub: no `planning/reference/`, `.env`, originals or local settings. The remote uses HTTPS because SSH keys are not set up here
