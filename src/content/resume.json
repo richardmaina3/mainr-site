@@ -20,7 +20,7 @@
             "Enhanced device performance and stability by designing, implementing and validating Linux kernel IPC driver features in C for Android BSP, supporting HW/SW interfaces using RPMsg, Qualcomm IPC Router and Glink over SMEM.",
             "Reproduced complex system failures and isolated root causes using JTAG/TRACE32 and kernel instrumentation, driving fixes through validation with cross-functional teams.",
             "Optimized debugging pipelines by developing a boot-time tracing tool in C++ using ftrace tracepoints, improving fault isolation during device initialization and reducing time spent diagnosing root cause.",
-            "Enabled recovery from crashed remote processors via patches merged into the mainline Linux kernel (v6.11), implementing a hardware-lock API and Qualcomm driver support (lore.kernel.org).",
+            "Enabled recovery from crashed remote processors via patches merged into the mainline Linux kernel (v6.11), implementing a hardware-lock API and Qualcomm driver support ([lore.kernel.org](https://lore.kernel.org/all/20240723172048.3684527-1-andersson@kernel.org/)).",
             "Implemented and profiled lightweight TCP/IP (lwIP) stack in C, evaluating throughput and latency tradeoffs to assess feasibility as an IPC transport channel."
           ]
         },

@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import RetroWindow from '../ui/RetroWindow.astro';
+import RichText from '../ui/RichText.astro';
 
 const { windowTitle, label, sections } = (await getEntry('resume', 'resume'))!.data;
 ---
@@ -17,13 +18,13 @@ const { windowTitle, label, sections } = (await getEntry('resume', 'resume'))!.d
             <h2>{section.heading}</h2>
             {section.entries.map((entry) => (
               <article class="entry">
-                <h3>{entry.title}</h3>
-                {entry.subtitle && <p class="role">{entry.subtitle}</p>}
-                {entry.lines?.map((line) => <p class="line">{line}</p>)}
+                <h3><RichText value={entry.title} /></h3>
+                {entry.subtitle && <p class="role"><RichText value={entry.subtitle} /></p>}
+                {entry.lines?.map((line) => <p class="line"><RichText value={line} /></p>)}
                 {entry.bullets && (
                   <ul>
                     {entry.bullets.map((bullet) => (
-                      <li>{bullet}</li>
+                      <li><RichText value={bullet} /></li>
                     ))}
                   </ul>
                 )}

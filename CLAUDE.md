@@ -111,12 +111,13 @@ MainR_site/
    │  └─ global.css
    ├─ lib/
    │  ├─ pixelIcons.ts        # Streamline Pixel icon paths and names
+   │  ├─ inlineLinks.ts       # [text](https://…) links inside content text
    │  └─ contentWarnings.ts   # build-time soft-limit warnings
    ├─ layouts/
    │  └─ BaseLayout.astro
    ├─ components/
    │  ├─ ui/                  # PillButton, PixelIcon, Sticker, Tape, Polaroid,
-   │  │                       # StickyNote, RetroWindow, SectionLabel,
+   │  │                       # StickyNote, RetroWindow, RichText, SectionLabel,
    │  │                       # AlbumCover, MuseumPrint, SportsPrint
    │  └─ sections/            # Header, Hero, Work, SkillsCloud, Cooking, DishCell,
    │                          # Culture, CultureCollage, ResumeDialog, Footer

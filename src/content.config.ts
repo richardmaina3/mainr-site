@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { file } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { validInlineLinks } from './lib/inlineLinks';
 import { iconNames } from './lib/pixelIcons';
 
 /*
@@ -93,6 +94,10 @@ const work = defineCollection({
   }),
 });
 
+// Text that may hold [visible text](https://address) links. A malformed link fails the build.
+const linkRule = 'malformed link: write [text](https://address), https only';
+const linkText = text.refine(validInlineLinks, linkRule);
+
 const resume = defineCollection({
   loader: singleton('src/content/resume.json', 'resume'),
   schema: z.object({
@@ -100,7 +105,7 @@ const resume = defineCollection({
     windowTitle: text,
     label: text,
     // Sections render in order. An entry is a bold title, an optional coloured line (role and
-    // dates), plain lines (for example degrees) and bullets.
+    // dates), plain lines (for example degrees) and bullets. Any of that text can hold links.
     sections: z
       .array(
         z.object({
@@ -108,10 +113,10 @@ const resume = defineCollection({
           entries: z
             .array(
               z.object({
-                title: text,
-                subtitle: z.string().trim().optional(),
-                lines: z.array(text).optional(),
-                bullets: z.array(text).optional(),
+                title: linkText,
+                subtitle: z.string().trim().refine(validInlineLinks, linkRule).optional(),
+                lines: z.array(linkText).optional(),
+                bullets: z.array(linkText).optional(),
               }),
             )
             .min(1),

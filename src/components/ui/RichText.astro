@@ -1,0 +1,39 @@
+---
+import { parseInlineLinks } from '../../lib/inlineLinks';
+
+interface Props {
+  /** Plain text, with optional [visible text](https://address) links. */
+  value: string;
+}
+
+const pieces = parseInlineLinks(Astro.props.value);
+---
+
+{
+  pieces.map((piece) =>
+    typeof piece === 'string' ? (
+      piece
+    ) : (
+      <a href={piece.href} target="_blank" rel="noopener noreferrer" aria-label={`${piece.text} (opens in a new tab)`}>
+        {piece.text}
+      </a>
+    ),
+  )
+}
+
+<style>
+  a {
+    color: var(--accent-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+</style>
