@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- The résumé window (PR #1) is merged and live
 - Résumé links: text in `resume.json` (titles, role lines, lines, bullets) can hold `[visible text](https://address)` links. New `src/lib/inlineLinks.ts` (the parser and a validator) and `RichText` component (`src/components/ui/`); the schema fails the build on a malformed or non-https link (the error names the entry and bullet). Links open in a new tab (`noopener noreferrer`, `aria-label` says so), in the heading blue with an underline and a visible focus ring
 - The Qualcomm bullet's "lore.kernel.org" is a real link again (to the mainline patch thread); it was a hyperlink in the original résumé that the first conversion had dropped
 - Feature branch `feature/resume-window`: the hero's second button is now **Resume** (was "See my work") and opens a modal `resume.exe` window with the Experience, Projects and Education sections of the résumé, verbatim, from the new `src/content/resume.json` (schema in `content.config.ts`: `windowTitle`, `label`, `sections[] {heading, entries[] {title, subtitle?, lines?, bullets?}}`)
