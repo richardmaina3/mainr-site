@@ -9,6 +9,8 @@ const { windowTitle, label, sections } = (await getEntry('resume', 'resume'))!.d
 <dialog id="resume" aria-label={label}>
   <RetroWindow title={windowTitle} label={label} closable>
     <div class="doc">
+      <!-- Only shown when JavaScript is off (see the scripting media query below); the title bar's close button needs the script. -->
+      <a class="fallback-close" href="#">Close</a>
       {
         sections.map((section) => (
           <section class="part">
@@ -96,6 +98,40 @@ const { windowTitle, label, sections } = (await getEntry('resume', 'resume'))!.d
   /* The page behind does not scroll while the window is open. */
   :global(html:has(dialog[open])) {
     overflow: hidden;
+  }
+
+  /*
+    Without JavaScript the Resume link still works: it points at #resume, and the dialog (the link's target) shows as a
+    plain centred overlay. A "Close" link inside it returns to the page. With JavaScript this never applies, so closing
+    the dialog cannot flash the overlay while the history catches up.
+  */
+  .fallback-close {
+    display: none;
+    margin-bottom: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    text-align: right;
+    text-underline-offset: 3px;
+  }
+
+  @media (scripting: none) {
+    dialog:target {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: block;
+      height: fit-content;
+      margin: auto;
+      box-shadow: 0 0 0 100vmax var(--scrim);
+    }
+
+    dialog:target :global(.close) {
+      display: none;
+    }
+
+    dialog:target .fallback-close {
+      display: block;
+    }
   }
 
   /* The window caps its own height and scrolls its body (RetroWindow's markup, so :global). */

@@ -5,6 +5,7 @@
 - New `ResumeDialog` section component: a native `<dialog>` (page behind inert, focus trapped and returned to the button, page scroll locked), DM Sans, section headings in `--accent-deep` with a thin rule, role and date lines in the new `--warm-deep` token (5.55:1 on `--print`), full-screen on phones. It closes with the X, Escape, a click outside the window or the Back button
 - Shareable link: opening the window adds `#resume` to the history, and visiting `/#resume` opens it directly; closing leaves the history as it was. Done with a small inline script (about 0.9 KB), a second approved JavaScript exception
 - `RetroWindow` gained a `closable` option (the last square becomes a real close button) and now scrolls its body when the window has a height limit; the skills.exe window is unchanged
+- No-JavaScript fallback: with scripting off, the Resume link still shows the window as a plain overlay (CSS `:target` inside `@media (scripting: none)`) with a text Close link
 - New tokens `--warm-deep` and `--scrim` in `tokens.css`
 - Docs: the "not a résumé" principle now carries this one exception (CLAUDE.md, `product_requirements.md`); component and data docs updated. Résumé PDF download is still out of scope
 - Phase 7: the site is live at https://mainr.netlify.app (`SITE_URL` set; canonical and share URLs verified). Lighthouse on the live URL: desktop 99/100/100/100, mobile 99/100/100/92 (the 92 is a robots.txt fetch timeout in the audit, not a real error)
