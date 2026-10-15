@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Docs audit (2026-10-15): `CLAUDE.md` status and etiquette, `Architecture.md` (résumé window row, deployment section), `engineering_design.md` (directory tree, launch status), `product_requirements.md` and `project_status.md` (next steps, decisions, open items) brought up to date with the live site, the PR workflow and the pending custom domain
 - The résumé window (PR #1) is merged and live
 - Résumé links: text in `resume.json` (titles, role lines, lines, bullets) can hold `[visible text](https://address)` links. New `src/lib/inlineLinks.ts` (the parser and a validator) and `RichText` component (`src/components/ui/`); the schema fails the build on a malformed or non-https link (the error names the entry and bullet). Links open in a new tab (`noopener noreferrer`, `aria-label` says so), in the heading blue with an underline and a visible focus ring
 - The Qualcomm bullet's "lore.kernel.org" is a real link again (to the mainline patch thread); it was a hyperlink in the original résumé that the first conversion had dropped

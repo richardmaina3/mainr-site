@@ -97,6 +97,6 @@ The site is **not a résumé**. It discusses achievements without reproducing ex
 | 3 | **Photos:** Richard will provide all photos (dishes, album art, portrait, museum, sports) as the build progresses | Placeholder images until each real photo arrives, tracked in the content to-do list |
 | 4 | ~~"More plates" pill~~ | **Decided:** out of v1. The pill is not built. |
 | 5 | **LinkedIn URL** (LinkedIn link is in v1, GitHub is deferred) | Link omitted from the footer until the URL is provided |
-| 6 | **Custom domain** and hosting setup | Netlify default `*.netlify.app` URL until a domain is chosen |
+| 6 | **Custom domain** and hosting setup | Netlify default `*.netlify.app` URL until a domain is chosen (2026-10-15: bought at Porkbun, nameservers moved to Netlify DNS, waiting on propagation) |
 | 7 | **Real Streamline Pixel icons** to replace the mockup's stand-in shapes | Stand-in shapes with the attribution already in place |
 | 8 | **Zephyr PR link** | Optional. The first PR has merged (Embedded names Zephyr); Learning says another contribution is in progress |

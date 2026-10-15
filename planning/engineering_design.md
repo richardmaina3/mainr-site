@@ -193,7 +193,7 @@ Produce `dist/` and deploy it.
 4. `npm run dev` shows it locally. The grid adds a cell, the polaroid side alternates automatically, and the label is numbered `No. 06`.
 5. He commits and pushes. Netlify runs `npm run build`. The Zod schema validates (a missing `alt` or a wrong filename would fail the build here), Astro renders HTML, and `astro:assets` generates responsive AVIF/WebP.
 6. Netlify publishes `dist/`.
-7. A recruiter's browser requests the page. The CDN returns the static HTML (with the CSS inline), the self-hosted fonts and optimized images, all from one origin. Fonts use `font-display: swap`. Below-the-fold images lazy-load. There is no JavaScript to run.
+7. A recruiter's browser requests the page. The CDN returns the static HTML (with the CSS inline), the self-hosted fonts and optimized images, all from one origin. Fonts use `font-display: swap`. Below-the-fold images lazy-load. Only three small inline scripts run (the mobile menu close, the coordinate readout and the résumé dialog).
 
 ## 9. Build Phases
 
@@ -204,11 +204,11 @@ Produce `dist/` and deploy it.
 4. Components: header, hero, work (lead, blocks, skills cloud), cooking grid, culture collage, footer.
 5. Responsive pass (desktop, tablet, mobile).
 6. Real copy, real photos and icons, accessibility and performance pass.
-7. Netlify setup and launch.
+7. Netlify setup and launch (live since 2026-10-13 at https://mainr.netlify.app; the custom domain is in progress).
 
-**Later phases (not planned yet):** a GitHub link once there is more public work to show, the "More plates" pill and gallery, analytics, a custom domain, a résumé download, dedicated pages if the site outgrows one scroll, and a study of the ideal wide-screen scaling (v1 keeps the 1200px content cap; see `project_status.md`, "Post-v1 tasks").
+**Later phases (not planned yet):** a GitHub link once there is more public work to show, the "More plates" pill and gallery, analytics, a résumé PDF download (the résumé itself is already a window), dedicated pages if the site outgrows one scroll, and a study of the ideal wide-screen scaling (v1 keeps the 1200px content cap; see `project_status.md`, "Post-v1 tasks").
 
-## 10. Directory Structure (Proposed)
+## 10. Directory Structure (Current)
 
 ```
 MainR_site/
@@ -216,7 +216,7 @@ MainR_site/
 ├─ Architecture.md
 ├─ Changelog.md
 ├─ project_status.md
-├─ README.md
+├─ README.md                  # not written yet
 ├─ package.json
 ├─ astro.config.mjs
 ├─ tsconfig.json
@@ -239,13 +239,15 @@ MainR_site/
 ├─ public/
 │  ├─ favicon.svg
 │  ├─ og-image.jpg
-│  └─ robots.txt
+│  ├─ robots.txt
+│  └─ fonts/                  # self-hosted woff2 files and the OFL notice
 └─ src/
    ├─ content.config.ts       # Zod schemas and collections
    ├─ content/
    │  ├─ site.json
    │  ├─ hero.json
    │  ├─ work.json
+   │  ├─ resume.json
    │  ├─ skills.json
    │  ├─ cooking.json
    │  └─ culture.json
@@ -254,14 +256,20 @@ MainR_site/
    │  └─ icons/               # Streamline Pixel SVGs
    ├─ styles/
    │  ├─ tokens.css
+   │  ├─ fonts.css
    │  └─ global.css
+   ├─ lib/
+   │  ├─ pixelIcons.ts        # Streamline Pixel icon paths and names
+   │  ├─ inlineLinks.ts       # [text](https://…) links inside content text
+   │  └─ contentWarnings.ts   # build-time soft-limit warnings
    ├─ layouts/
    │  └─ BaseLayout.astro
    ├─ components/
    │  ├─ ui/                  # PillButton, PixelIcon, Sticker, Tape, Polaroid,
-   │  │                       # StickyNote, RetroWindow
+   │  │                       # StickyNote, RetroWindow, RichText, SectionLabel,
+   │  │                       # AlbumCover, MuseumPrint, SportsPrint
    │  └─ sections/            # Header, Hero, Work, SkillsCloud, Cooking, DishCell,
-   │                          # Culture, CultureCollage, Footer
+   │                          # Culture, CultureCollage, ResumeDialog, Footer
    └─ pages/
       └─ index.astro
 ```
@@ -296,7 +304,7 @@ The Playwright MCP is connected and verified working (it blocks `file:` URLs, so
 
 **Content rules**
 - Do not publish unverified claims (parser speedup numbers, Zephyr contribution details, Edge AI as a project). One Zephyr contribution has merged ("contributed to Zephyr" is fine, with no details); the next is "in progress". Edge AI is framed as curiosity.
-- The site discusses achievements, not résumé-level detail.
+- The site discusses achievements, not résumé-level detail. The one exception is the résumé window, which shows the Experience, Projects and Education sections verbatim.
 - Placeholder photos and copy are flagged and tracked until replaced.
 
 **Assumptions**
@@ -304,4 +312,4 @@ The Playwright MCP is connected and verified working (it blocks `file:` URLs, so
 - Photo count in v1 matches the mockup: 5 dishes, 4 albums, 2 museum, 2 sports, 1 portrait.
 - Fonts are self-hosted (decided 2026-10-11, was Google Fonts per the brief) because the Google Fonts stylesheet blocked first paint and cost about 1.1s of mobile performance in Lighthouse.
 - Streamline Pixel icons are CC BY 4.0 and require the footer attribution.
-- Album covers should be photos Richard took of his own records (safest for rights).
+- Album covers should be photos Richard took of his own records (safest for rights). In practice the four covers are official cover art, kept by Richard's decision (2026-10-11).

@@ -6,6 +6,8 @@ CLAUDE.md carries the short live snapshot. This file holds the fuller history an
 
 **Phase 1 (MVP):** the full single-page site from the design brief: Header, Hero, Work, Cooking, Culture, Footer, with JSON-driven content and a build-time photo filter. See `planning/product_requirements.md` §4. Build phases are in `planning/engineering_design.md` §9.
 
+**Status (2026-10-15):** the site is live at https://mainr.netlify.app and the résumé window is merged. The custom domain is waiting on DNS (nameservers moved to Netlify DNS).
+
 ## Completed
 - **Project setup (`/project-setup`), finished 2026-10-05:**
   - Planning docs approved (product requirements and engineering design).
@@ -146,11 +148,15 @@ CLAUDE.md carries the short live snapshot. This file holds the fuller history an
 
 - **Résumé inline links, 2026-10-13 (Richard's request):** `[visible text](https://address)` in any `resume.json` text becomes a link (new tab, https only, malformed links fail the build). The lore.kernel.org link from the original résumé is restored in the Qualcomm bullet. Only that syntax is recognised; there is no bold or italic inside text.
 
-## Next up
-- Nothing left on the copy except small tweaks Richard makes himself in the JSON files. (The contact email is done: `richardmaina3@gmail.com`, so both Contact buttons open a real `mailto:`.)
 - ~~Rebuild the local history before the first push~~ **done 2026-10-11 (Richard's go-ahead):** orphan branch from the current tree, one commit, `main` replaced. The tree is identical to the old tip (`74fcf50`); `planning/reference/` is in no commit. The old commits remain only in the local reflog (a push never includes it; recover with `git branch recover 74fcf50`). Richard keeps `planning/reference/` backed up in his OneDrive folder. Decision: the album covers stay as they are.
 - **Pushed to GitHub, 2026-10-11 (Richard's "go"):** `origin` is `https://github.com/richardmaina3/mainr-site.git` (HTTPS, because SSH keys are not set up; `gh` supplies the credentials per push). `main` is one commit (`9416d3c`, 74 files). Verified on GitHub: public, default branch `main`, no `planning/reference/`, `.env`, `media-originals/` or local settings; only `.claude/commands/update-docs.md` from `.claude/`.
-- **Phase 7 status (2026-10-13):** the push, the Netlify site, the site name (`mainr`) and `SITE_URL` are done and verified live (see Completed). Remaining: custom domain (then update `SITE_URL` and redeploy), decide PR versus direct merge for deploy previews, Richard checks the LinkedIn share preview after the domain is set, and the optional `URL` fallback in `astro.config.mjs`.
+
+## Next up
+- **Custom domain** (Richard bought it at Porkbun and set Netlify DNS on 2026-10-15): when DNS resolves, set the primary domain in Netlify, change the `SITE_URL` environment variable to the new address, redeploy with "Clear cache and deploy", then Claude verifies DNS, the certificate, the redirects (including `mainr.netlify.app`), the canonical and share URLs and Lighthouse; Richard checks the LinkedIn share preview. Rerun Lighthouse on the real domain too (the mobile SEO audit timed out fetching `robots.txt` on the Netlify URL).
+- **Contact fallback (decision pending):** "Contact me" is a plain `mailto:`, so it does nothing for visitors with no mail app. Options are Richard's address as selectable text with a Copy button (smallest fix; hero and footer) or a small `contact.exe` window with Copy, Gmail, Outlook and default-app buttons. A contact form is not recommended. Build on a feature branch with a deploy preview.
+- **Favicon (decision postponed):** the chunky chip shape or something else.
+- **Repo privacy (Richard is considering it):** Netlify keeps deploying a private personal repo through its GitHub app, so nothing else needs to change. The site, including the album covers, stays public either way.
+- Optional: make the build fall back to Netlify's own `URL` variable when `SITE_URL` is unset, so deploy previews get correct URLs; add a LinkedIn URL (`site.linkedin`) for the footer link; link the merged Zephyr PR; a short `README.md`.
 - For any larger piece of work, follow the full feature-dev workflow (Richard's request, saved to memory).
 
 ## Deferred
@@ -233,16 +239,21 @@ Work to pick up after v1 has launched. None of it blocks v1.
 - **Git:** `git init -b main` run at Richard's request on 2026-10-05. `.gitignore` also excludes `.claude/settings.local.json` and `.playwright-mcp/`.
 - **Reference files:** moved into `planning/reference/` (`MAINR_DESIGN.md` renamed without the space, `career-philosophy.md` renamed from its long title) on 2026-10-05, before the folder move.
 
+- **Workflow, 2026-10-15:** every change after launch goes on a feature branch with a draft PR so Netlify builds a deploy preview; Richard merges with Squash and merge on GitHub. The auto-mode permission checker blocks `gh pr merge` for Claude ("Merge Without Review"), so Claude does not merge; this is intentional and `gh pr merge` stays out of the allow list.
+- **Custom domain via Netlify DNS, 2026-10-15:** Richard chose Route A (nameservers at Porkbun pointed at Netlify) over keeping Porkbun DNS with ALIAS and CNAME records, because Netlify then manages the records and certificates. Mail records (if a domain email is wanted later) would be added in Netlify DNS.
+- **Repo privacy (being considered 2026-10-15):** Netlify's documentation and support say a connected repo can be made private without breaking deploys, because access comes through the Netlify GitHub app until it is removed or restricted; personal private repos are supported on the free plan, organization-owned private repos need Pro. The history was already clean (no `planning/reference/`) before the first push, so nothing private was ever public.
+
 ## Open items
 - ~~Contact email~~ done 2026-10-11 (`richardmaina3@gmail.com` in `site.json`). It is public on the page as a `mailto:` link, so it can be harvested by spam bots; accepted for a personal contact site.
 - LinkedIn URL
 - ~~Hero headline and subline~~ done 2026-10-11 (see the copy pass above).
 - All photos are in (the hero portrait, museum and sports photos were added 2026-10-07 and 2026-10-08). Richard may still swap any of them.
-- **Album art rights, must be cleared before anything is pushed to the public repo or the site goes live:** `engineering_design.md` §12 assumes album covers are photos Richard took of his own records. The four album files in use look like official cover art (one has a Parental Advisory label). Richard is using them for now and will work on getting them cleared. The processed copies in `src/assets/photos/` would be published by a push, so either clearance or a swap to his own photos of the records has to happen first.
+- **Album art rights (decision 2026-10-11: Richard keeps the covers for now; the repo is public and the site is live with them):** `engineering_design.md` §12 assumes album covers are photos Richard took of his own records. The four album files in use look like official cover art (one has a Parental Advisory label). Richard is using them for now and will work on getting them cleared. The processed copies in `src/assets/photos/` would be published by a push, so either clearance or a swap to his own photos of the records has to happen first.
 - ~~Album artist names and dish content~~ done 2026-10-11: artists and the "Jeunebeurdelafontaine Vol 2" spelling are confirmed, dish dates are filled in and the dish notes are rewritten as short stories.
-- Real Streamline Pixel icons (fetch from Iconify's `streamline-pixel` set, CC BY 4.0, at scaffold time)
+- ~~Real Streamline Pixel icons~~ done in phase 6.
 - Zephyr PR link (the first PR has merged; optionally link it)
-- PR vs direct merge, and commit message conventions (TBD in CLAUDE.md). Remote not added yet. First commit comes after phase 4.
+- ~~PR versus direct merge, commit message conventions~~ decided 2026-10-15: feature branch, draft PR, deploy preview, Richard squash-merges on GitHub; the commit message convention in `CLAUDE.md` is confirmed.
+- Custom domain, contact fallback, favicon and repo privacy: see Next up.
 - **Wide-screen width (asked 2026-10-05):** Richard noticed the content does not fill a wide PC window. This is by design: content is capped at 1200px and centred (CLAUDE.md key decisions, `engineering_design.md` §6), and the paper and grid background do run edge to edge. At 1920px the margins are 353px each side. **Decision (2026-10-06): keep the 1200px cap for v1.** The ideal wide-screen scaling is a post-v1 task (see "Post-v1 tasks" below).
 - Placeholder content tracker: none left. No placeholder images remain, the email is set, and the headline, About note, captions, "Right now" values, Culture intro and dish notes are written.
 - The favicon still uses the chunky chip shape rather than a Streamline icon (the detailed icon is illegible at 16px). **Decision postponed (2026-10-11).**

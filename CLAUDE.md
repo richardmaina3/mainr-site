@@ -2,15 +2,15 @@
 
 A static, single-page personal site for Richard Maina: an adaptive problem solver with an embedded/kernel core, shipped-software experience and real-life interests (cooking, music, art, sport). It is a landing page for recruiters (mostly embedded/platform) and business connections, built to get one idea across: *"This guy could solve my problem."* It is **not a résumé**. It discusses achievements without reproducing résumé-level detail. The one deliberate exception is the `resume.exe` window (opened by the hero's Resume button, 2026-10-13), which shows the Experience, Projects and Education sections verbatim from `resume.json`; everything else on the page stays general. Look and feel: an engineer's notebook page with a scrapbook on it and a Y2K desktop in the margins.
 
-Built with Astro, deployed on Netlify from GitHub (`richardmaina3/mainr-site`, public). All copy, captions and the skills word cloud live in JSON. Photos pass through a build-time warm-grain filter script.
+Built with Astro, deployed on Netlify from GitHub (`richardmaina3/mainr-site`, public for now) and live at https://mainr.netlify.app. All copy, captions and the skills word cloud live in JSON. Photos pass through a build-time warm-grain filter script.
 
 Full design source of truth: `planning/engineering_design.md` (requirements: `planning/product_requirements.md`). Visual source of truth: `planning/reference/mockup-reference.html` (mockup C) and the design brief `planning/reference/MAINR_DESIGN.md`. Where the brief and the mockup differ, the mockup's look wins.
 
 ## Current Status
-**Phase:** Build phases 1 to 6 done (scaffold, content layer, photo filter, components, responsive pass, icons plus accessibility and performance pass), except Richard's own text pass. Phase 7 (Netlify launch): the site is live at https://mainr.netlify.app (2026-10-13); the custom domain and the PR workflow are left.
-**Last completed:** Phase 6 (2026-10-11). Real Streamline Pixel icons (slightly bolder; afterwards the section-label and header-pill icons were removed and the Cooking sticker became the Streamline fish, `food-drink-fish`), a 1200x630 share image (`public/og-image.jpg`) with alt text, and fonts self-hosted in `public/fonts/` with inline CSS. Lighthouse 13.5.0 on the production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100 on both the mobile and desktop profiles (the first run scored Performance 84 because the Google Fonts stylesheet blocked first paint). Own audit: all 86 text elements pass contrast (lowest 5.32:1), keyboard order and focus verified. `npm audit`: 0 vulnerabilities. All 14 photos are real and processed. Only JavaScript: a 235-byte inline script for the mobile menu. Earlier: whole page built, responsive sweep at 17 sizes, grain lowered to 0.1. Full detail in `project_status.md`.
-**Next step:** The copy pass is done (hero, About, Work, Culture intro and dish notes were rewritten in Richard's voice on 2026-10-11); only small tweaks he makes himself remain. The favicon decision is postponed and the Contact button wording stays. The contact email is set (`richardmaina3@gmail.com`, 2026-10-11). The local history was rebuilt as one clean commit on 2026-10-11 (no `planning/reference/` in it), and Richard decided to keep the album covers as they are (he knows a public push publishes them). Pushed to GitHub on 2026-10-11 (`origin` = `https://github.com/richardmaina3/mainr-site.git`, `main` at `9416d3c`). The site is live on Netlify at https://mainr.netlify.app (`SITE_URL` set, canonical and share URLs verified, Lighthouse 99/100/100/92-100 on the live URL). The résumé window (hero Resume button, `resume.json`) is live (PR #1, squash-merged by Richard 2026-10-15; preview checked, Lighthouse 99/100/100/100 on a local production build). Still to do: a custom domain (then update `SITE_URL`), the PR versus direct-merge decision, and Richard checking the LinkedIn share preview once the domain is set. Dev server: http://localhost:4321 (restart it after changing `content.config.ts` or adding a `<script>`). For larger pieces of work, follow the full feature-dev workflow (Richard's request). Say what will be built before starting.
-**Blockers:** None.
+**Phase:** All build phases are done. Phase 7 (Netlify launch) is live at https://mainr.netlify.app (since 2026-10-13); only the custom domain is outstanding.
+**Last completed:** The résumé window (2026-10-15, PR #1): the hero's Resume button opens a modal `resume.exe` window (native `<dialog>`, content in `resume.json`, shareable `/#resume`, a no-JavaScript fallback, inline links). Before that: the copy pass in Richard's voice, live header coordinates, the light-bulb Learning icon and the Netlify launch. Lighthouse on a local production build: 100/100/100/100 desktop and 99/100/100/100 mobile; on the live site 99/100/100/92-100 (the mobile SEO 92 is a robots.txt fetch timeout inside the audit, not a real error). `npm audit`: 0 vulnerabilities. Three small inline scripts are the only JavaScript (menu close, coordinate readout, résumé dialog). Full detail in `project_status.md`.
+**Next step:** The custom domain. Richard bought a domain at Porkbun and pointed its nameservers at Netlify DNS (2026-10-15). Once DNS resolves: set the primary domain in Netlify, change the `SITE_URL` environment variable to the new address and redeploy, then Claude verifies DNS, the certificate, redirects, canonical and share URLs and Lighthouse, and Richard checks the LinkedIn share preview. Open decisions for Richard: a visible fallback for visitors with no mail app ("Contact me" is a plain `mailto:`; options are the address as text with a Copy button, or a contact window), the favicon, and whether to make the repo private (Netlify keeps deploying through its GitHub App). Workflow in use: feature branch, draft PR, Netlify deploy preview, then Richard merges on GitHub (the merge command is blocked for Claude by the permission checker). Dev server: http://localhost:4321 (restart it after changing `content.config.ts` or adding a `<script>`). For larger pieces of work, follow the full feature-dev workflow (Richard's request). Say what will be built before starting.
+**Blockers:** None (waiting on DNS).
 **Full history & detail:** see `project_status.md`
 
 Build phases (from engineering_design.md §9):
@@ -19,8 +19,8 @@ Build phases (from engineering_design.md §9):
 - [x] 3. Photo filter script and first processed batch
 - [x] 4. Components: header, hero, work, cooking, culture, footer
 - [x] 5. Responsive pass (desktop, tablet, mobile)
-- [x] 6. Real copy, photos and icons; accessibility and performance pass (the real copy is Richard's own text pass, still open)
-- [ ] 7. Netlify setup and launch
+- [x] 6. Real copy, photos and icons; accessibility and performance pass (the copy pass was done 2026-10-11)
+- [ ] 7. Netlify setup and launch (live at mainr.netlify.app; custom domain pending)
 - [ ] Post-v1: find the ideal wide-screen scaling (v1 keeps the 1200px cap on purpose). Findings and the proposed split-width approach are in `project_status.md` under "Post-v1 tasks".
 
 ## Goals
@@ -37,16 +37,16 @@ Two phases: **authoring/build** (all the logic) and **runtime** (static files on
 |---|---|
 | Content | `src/content/*.json` validated by Zod schemas (Astro content collections). Required `alt` on every image. |
 | Photo pipeline | `media-originals/` (gitignored) → `npm run photos` (sharp: orient, strip EXIF/GPS, warm tint, grain) → `src/assets/photos/` masters (committed) → Astro `astro:assets` makes responsive AVIF/WebP at build |
-| UI components | Reusable scrapbook pieces in `src/components/ui/` (PillButton, PixelIcon, Sticker, Tape, Polaroid, StickyNote, RetroWindow) and section assemblies in `src/components/sections/` |
+| UI components | Reusable scrapbook pieces in `src/components/ui/` (PillButton, PixelIcon, Sticker, Tape, Polaroid, StickyNote, RetroWindow, RichText) and section assemblies in `src/components/sections/` |
 | Styling | Plain CSS with design tokens in `src/styles/tokens.css`. No Tailwind. |
 | Build & deploy | `astro build` → `dist/` → Netlify from GitHub, deploy previews on branches |
 
-Page order: Header, Hero, Work (`01 / WORK`), Cooking (`02 / COOKING`), Culture (`03 / CULTURE`), Footer.
+Page order: Header, Hero, Work (`01 / WORK`), Cooking (`02 / COOKING`), Culture (`03 / CULTURE`), Footer. The résumé dialog (`ResumeDialog`) sits after the footer, outside `main`, and is opened from the hero.
 
 ## Key Design Decisions
 Non-negotiable. Do not reverse these quietly.
 - **Work is the primary section.** Hybrid format: a short lead paragraph, then three blocks titled **Embedded**, **Delivery**, **Learning** (chip, box, bulb icons), each with a bold one-line anchor, plus the `skills.exe` word-cloud window. Personality must never cost recruiter scannability. See engineering_design.md §4, product_requirements.md §4.
-- **No unverified claims.** No parser speedup numbers, no Zephyr contribution details (one Zephyr contribution has merged, so "contributed to Zephyr" is fine; the second is "in progress" and stays in Learning), and on-device ML only as curiosity. Not a résumé: no exact dates or bullet-level metrics.
+- **No unverified claims.** No parser speedup numbers, no Zephyr contribution details (one Zephyr contribution has merged, so "contributed to Zephyr" is fine; the second is "in progress" and stays in Learning), and on-device ML only as curiosity. Not a résumé: no exact dates or bullet-level metrics, except inside the résumé window.
 - **Content lives in JSON, not components.** Adding or swapping media must never need a component edit. Pixel sizes are never written in JSON (skills use tiers 1–6). See §4.
 - **Photo look is baked in at build time**, never a runtime filter. Strip all EXIF/GPS metadata. See §5.
 - **Light mode only. No gradients** (the page grid is hairlines). No scroll animation, parallax or custom cursor. Hover and focus motion on buttons and links only (nudge 1px up-left, shadow 3px→5px, fill to accent deep, about 0.12s). Respect `prefers-reduced-motion`.
@@ -59,7 +59,7 @@ Non-negotiable. Do not reverse these quietly.
 - **Out of v1:** separate pages, blog, contact form (mailto only), CMS, analytics, dark mode, résumé PDF, GitHub link, the "More plates" pill. See product_requirements.md §5.
 
 ## Directory Structure
-Proposed tree. The three reference files are already in `planning/reference/`. Everything else below is built during phase 1.
+The current tree. `planning/reference/` is gitignored and exists only on Richard's machine.
 
 ```
 MainR_site/
@@ -67,7 +67,7 @@ MainR_site/
 ├─ Architecture.md
 ├─ Changelog.md
 ├─ project_status.md
-├─ README.md
+├─ README.md                  # not written yet (the repo has none)
 ├─ package.json
 ├─ package-lock.json
 ├─ astro.config.mjs
@@ -76,6 +76,7 @@ MainR_site/
 ├─ .nvmrc
 ├─ .npmrc                     # ignore-scripts, exact versions (see dependency policy)
 ├─ .gitignore
+├─ .claude/commands/update-docs.md  # the /update-docs command
 ├─ .env                       # gitignored, written by Richard: SITE_URL
 ├─ .env.example               # committed template
 ├─ planning/
@@ -84,7 +85,8 @@ MainR_site/
 │  └─ reference/              # GITIGNORED: exists only on Richard's machine (private; back it up elsewhere)
 │     ├─ MAINR_DESIGN.md      # design brief v1.0
 │     ├─ mockup-reference.html
-│     └─ career-philosophy.md
+│     ├─ career-philosophy.md
+│     └─ Richard Maina Professional Resume_T.docx  # source for resume.json (has a phone number; never commit)
 ├─ media-originals/           # gitignored, unfiltered source photos, one flat folder
 ├─ scripts/
 │  ├─ process-photos.mjs
@@ -92,7 +94,8 @@ MainR_site/
 ├─ public/
 │  ├─ favicon.svg
 │  ├─ og-image.jpg
-│  └─ robots.txt
+│  ├─ robots.txt
+│  └─ fonts/                  # self-hosted woff2 files and the OFL notice
 └─ src/
    ├─ content.config.ts       # Zod schemas and collections
    ├─ content/
@@ -108,6 +111,7 @@ MainR_site/
    │  └─ icons/               # Streamline Pixel SVGs
    ├─ styles/
    │  ├─ tokens.css
+   │  ├─ fonts.css
    │  └─ global.css
    ├─ lib/
    │  ├─ pixelIcons.ts        # Streamline Pixel icon paths and names
@@ -135,7 +139,7 @@ MainR_site/
 **Security — MUST follow:**
 - Always use environment variables for secrets. (v1 needs none. `.env` only holds `SITE_URL`.)
 - Never commit `.env` or any file with real credentials.
-- **The repo is public.** Never commit unfiltered originals (`media-originals/` is gitignored), photo metadata, or anything private.
+- **The repo is public** (Richard may make it private; Netlify keeps deploying either way), so treat everything committed as public. Never commit unfiltered originals (`media-originals/` is gitignored), photo metadata, or anything private.
 - Never enter real credentials or API keys on Richard's behalf.
 
 **Dependency policy (npm supply-chain caution):**
@@ -156,14 +160,16 @@ MainR_site/
 **Single-feature workflow.** Build one section or component group at a time, in the build-phase order above. Before starting each one, say what you plan to build. Compare the result with `planning/reference/mockup-reference.html` (over `localhost`, using Playwright) and show Richard before moving on. Run `/update-docs` when each feature is done. Use the frontend-design skill for visual work and feature-dev for the larger pieces (e.g., the culture collage).
 
 ## Repository Etiquette
-- **Branching:** `main` is production. Feature branches get Netlify deploy previews. (Proposed, confirm before first push.) Local repo initialised on `main` on 2026-10-05. **History rebuilt on 2026-10-11 (Richard's go-ahead):** `main` is now a single commit ("Initial commit: MainR personal site (Astro, static)"), identical in content to the previous tip but without `planning/reference/` in any commit. The earlier commits (tip `74fcf50`) are only in the local reflog, which a push never includes; recover with `git branch recover 74fcf50` if ever needed. Pushed to `origin` (HTTPS; SSH is not set up on this machine, and `gh` supplies the credentials with `git -c credential.helper="!gh auth git-credential" push`). The album covers are in the commit on purpose (Richard is keeping them for now).
-- **PR vs direct merge:** TBD.
-- **Commit messages:** a short imperative summary line, a blank line, then bullets on what and why, ending with the `Co-Authored-By` attribution line. (Convention used for the first commit; confirm or change.)
+- **Branching:** `main` is production (Netlify deploys it). Work happens on feature branches (`feature/<name>`); a draft pull request gets a Netlify deploy preview (`https://deploy-preview-<n>--mainr.netlify.app`, public, `noindex`). Richard merges on GitHub with **Squash and merge** (the merge command is blocked for Claude by the permission checker, so Claude does not merge). Delete the branch afterwards.
+- **History:** `main` was rebuilt as one clean commit on 2026-10-11 (no `planning/reference/` in any commit). The earlier commits (tip `74fcf50`) are only in the local reflog; recover with `git branch recover 74fcf50` if ever needed. The album covers are in the repo on purpose (Richard is keeping them for now).
+- **Remote:** `origin` is `https://github.com/richardmaina3/mainr-site.git` over HTTPS (SSH is not set up on this machine). Push with the GitHub CLI's credentials: `git -c credential.helper= -c "credential.helper=!gh auth git-credential" push`.
+- **Commit messages:** a short imperative summary line, a blank line, then bullets on what and why, ending with the `Co-Authored-By` attribution line.
 - **Pushing:** do not push or create PRs until Richard says so.
 
 ## Frequently Used Commands
 - `npm run dev` (Astro dev server, http://localhost:4321), `npm run build` (`astro check && astro build`), `npm run preview`, `npm run check`
 - `npm run photos` (photo filter): processes `media-originals/` into `src/assets/photos/`. Flags: `-- --force` reprocesses everything.
+- `gh pr create --draft`, `gh pr view <n>` (the Netlify bot comments the preview link), `gh pr checks <n>`. Lighthouse is a one-off `npx lighthouse@13.5.0 <url>` run with `CHROME_PATH` set (ask Richard first; nothing is added to `package.json`).
 
 **Documentation upkeep:** at the end of every step or phase, run `/update-docs` (defined in `.claude/commands/update-docs.md`). It syncs the Current Status section above, `project_status.md`, `Changelog.md` and `Architecture.md` with what actually happened. If the slash command isn't available, read that file and follow its steps by hand.
 
