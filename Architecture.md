@@ -10,7 +10,7 @@ Page order: Header, Hero, Work, Cooking, Culture, Footer, plus the résumé dial
 
 ## Components
 
-All build phases are done and the site is live on Netlify (https://mainr.netlify.app). The page is about 62 KB of HTML (the CSS is inlined and the résumé text is included), about 213 KB of images, and three small inline scripts (mobile menu close, coordinate readout, résumé dialog). Audited at 17 sizes from 320 to 2560px with no overflow, clipping or layout shift; tap targets are at least 44px on phones.
+All build phases are done and the site is live on Netlify (https://mainr.biz). The page is about 62 KB of HTML (the CSS is inlined and the résumé text is included), about 213 KB of images, and three small inline scripts (mobile menu close, coordinate readout, résumé dialog). Audited at 17 sizes from 320 to 2560px with no overflow, clipping or layout shift; tap targets are at least 44px on phones.
 
 | Component | Status | Notes |
 |---|---|---|
@@ -34,8 +34,8 @@ All build phases are done and the site is live on Netlify (https://mainr.netlify
 ## Deployment
 
 - **Hosting:** Netlify site `mainr`, built from `richardmaina3/mainr-site` on GitHub through the Netlify GitHub app. Production is `main`; a draft pull request gets a deploy preview (public, `noindex`, so Lighthouse SEO scores about 69 there by design).
-- **URL:** https://mainr.netlify.app. A custom domain (bought at Porkbun, nameservers pointed at Netlify DNS on 2026-10-15) is waiting on DNS; when it resolves, set the primary domain and change `SITE_URL`, then redeploy.
-- **`SITE_URL`:** a Netlify environment variable (`https://mainr.netlify.app` today). It feeds the canonical, `og:url` and `og:image` URLs; if it is missing the build falls back to `http://localhost:4321`, which breaks link previews.
+- **URL:** https://mainr.biz (bought at Porkbun, nameservers pointed at Netlify DNS on 2026-10-15; primary domain in Netlify; Let's Encrypt certificate, renewed automatically). `http://` and `www.` redirect to `https://mainr.biz/`. `mainr.netlify.app` still serves the page, with its canonical pointing at mainr.biz (a redirect rule in `netlify.toml` is an optional follow-up).
+- **`SITE_URL`:** a Netlify environment variable (`https://mainr.biz`). A change only takes effect after a new deploy (use Clear cache and deploy). It feeds the canonical, `og:url` and `og:image` URLs; if it is missing the build falls back to `http://localhost:4321`, which breaks link previews.
 - **Private repo:** if Richard makes the repo private, Netlify keeps deploying while the Netlify GitHub app keeps access to it (true for personal repos on any plan; organization-owned private repos need the Pro plan).
 - **Netlify extras:** Netlify adds a small "Powered by Netlify" badge to the page; it is not in the repo's code.
 

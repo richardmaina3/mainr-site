@@ -204,7 +204,7 @@ Produce `dist/` and deploy it.
 4. Components: header, hero, work (lead, blocks, skills cloud), cooking grid, culture collage, footer.
 5. Responsive pass (desktop, tablet, mobile).
 6. Real copy, real photos and icons, accessibility and performance pass.
-7. Netlify setup and launch (live since 2026-10-13 at https://mainr.netlify.app; the custom domain is in progress).
+7. Netlify setup and launch (live since 2026-10-13; custom domain https://mainr.biz since 2026-10-17).
 
 **Later phases (not planned yet):** a GitHub link once there is more public work to show, the "More plates" pill and gallery, analytics, a résumé PDF download (the résumé itself is already a window), dedicated pages if the site outgrows one scroll, and a study of the ideal wide-screen scaling (v1 keeps the 1200px content cap; see `project_status.md`, "Post-v1 tasks").
 
